@@ -1,0 +1,30 @@
+body {
+  background-color: rgb(9, 25, 44);
+}
+
+circle {
+  fill: url(#radial1);
+  r: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.cls-1 {
+  stroke: url(#gradient1);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.paths {
+  position: absolute;
+  z-index: 100;
+  top: -100px;
+}
+
+.map {
+  position: absolute;
+  z-index: 0;
+  top: -100px;
+}
