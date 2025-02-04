@@ -1,13 +1,5 @@
 const signalDuration = 2500;
-let activeSignals = [
-  "path_001",
-  "path1",
-  "path2",
-  "path3",
-  "path4",
-  "path5",
-  "path6",
-];
+let activeSignals = ["path_001", "path1", "path2", "path3", "path4", "path5"];
 let stoppedSignals = [];
 
 async function loadSVG(fileName, destination = "body") {
