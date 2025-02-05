@@ -218,24 +218,6 @@ async function initialize() {
       randomInt(2),
       (Math.random() - 0.5) * 4
     );
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
