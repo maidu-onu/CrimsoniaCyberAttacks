@@ -351,15 +351,54 @@ template {
 }
 
 /* RESETS END */
+
+:root {
+  --color1: rgb(0, 255, 140);
+}
+
 body {
   background-color: rgb(9, 25, 44);
 }
 
-circle {
+#mapContainer {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+#animationSVG {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100%;
+  pointer-events: none;
+}
+#map {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100%;
+}
+
+.circle1 {
   fill: url(#radial1);
   r: 1;
   transform-box: fill-box;
   transform-origin: center;
+  opacity: 0;
+}
+.circle2 {
+  fill: url(#radial2);
+  r: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
 }
 .path_test {
   stroke: rgb(93, 166, 255);
@@ -368,47 +407,75 @@ circle {
   position: absolute;
   z-index: 100;
 }
-.up {
-  stroke: url(#gradient_up);
+.up1 {
+  stroke: url(#gradient_up1);
   stroke-width: 3;
   fill: none;
   position: absolute;
   z-index: 100;
   visibility: hidden;
 }
-.right {
-  stroke: url(#gradient_right);
+.right1 {
+  stroke: url(#gradient_right1);
   stroke-width: 3;
   fill: none;
   position: absolute;
   z-index: 100;
   visibility: hidden;
 }
-.down {
-  stroke: url(#gradient_down);
+.down1 {
+  stroke: url(#gradient_down1);
   stroke-width: 3;
   fill: none;
   position: absolute;
   z-index: 100;
   visibility: hidden;
 }
-.left {
-  stroke: url(#gradient_left);
+.left1 {
+  stroke: url(#gradient_left1);
   stroke-width: 3;
   fill: none;
   position: absolute;
   z-index: 100;
   visibility: hidden;
 }
+.up2 {
+  stroke: url(#gradient_up2);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.right2 {
+  stroke: url(#gradient_right2);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.down2 {
+  stroke: url(#gradient_down2);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.left2 {
+  stroke: url(#gradient_left2);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+
 .visible {
   visibility: visible !important;
 }
 
-.mapContainer {
-  position: absolute;
-  z-index: 0;
-}
-.svg {
-  position: absolute;
-  z-index: 100;
+.hidden {
+  visibility: hidden;
 }
