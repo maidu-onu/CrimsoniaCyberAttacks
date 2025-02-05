@@ -95,7 +95,14 @@ const mapClick = function () {
     clickNum++;
 
     if (clickNum === 2) {
-      makePath(clickX, clickY, svgX, svgY, randomInt(2), 1);
+      makePath(
+        clickX,
+        clickY,
+        svgX,
+        svgY,
+        randomInt(2),
+        (Math.random() - 0.5) * 4
+      );
       signal(latestPath);
       clickNum = 0;
     }
