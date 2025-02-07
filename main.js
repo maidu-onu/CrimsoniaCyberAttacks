@@ -167,7 +167,7 @@ const randomTime = function () {
 
 const randomSignal = function (id1, id2, color, bend) {
   let lastTime = Date.now();
-  let randomInterval = randomTime();
+  let randomInterval = randomTime(); //this needs to be outside of interval
   makePathByID(id1, id2, color, bend);
   let pathName = latestPath;
   console.log(pathName);
@@ -206,25 +206,11 @@ async function initialize() {
     await loadSVG("map", "mapContainer");
     await map(); //defines map svg object as const
     await animation();
-    await mapClick(); //eventListener for clicking on map
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
-    await randomSignal(
-      "Daka",
-      "Vundan",
-      randomInt(2),
-      (Math.random() - 0.5) * 4
-    );
+    mapClick(); //eventListener for clicking on map
+    randomSignal("Daka", "Vundan", randomInt(3), (Math.random() - 0.5) * 2);
+    randomSignal("Ugrark", "Bakun", randomInt(3), (Math.random() - 0.5) * 2);
+    randomSignal("Daka", "Vundan", randomInt(3), (Math.random() - 0.5) * 2);
+    randomSignal("Ugrark", "Bakun", randomInt(3), (Math.random() - 0.5) * 2);
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
@@ -232,5 +218,6 @@ async function initialize() {
     console.error("Initialization failed:", error);
   }
 }
+
 //load main code above
 document.addEventListener("DOMContentLoaded", initialize);

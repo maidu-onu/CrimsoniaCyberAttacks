@@ -400,6 +400,13 @@ body {
   transform-origin: center;
   opacity: 0;
 }
+.circle3 {
+  fill: url(#radial3);
+  r: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
 .path_test {
   stroke: rgb(93, 166, 255);
   stroke-width: 3;
@@ -471,7 +478,38 @@ body {
   z-index: 100;
   visibility: hidden;
 }
-
+.up3 {
+  stroke: url(#gradient_up3);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.right3 {
+  stroke: url(#gradient_right3);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.down3 {
+  stroke: url(#gradient_down3);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+.left3 {
+  stroke: url(#gradient_left3);
+  stroke-width: 3;
+  fill: none;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
 .visible {
   visibility: visible !important;
 }

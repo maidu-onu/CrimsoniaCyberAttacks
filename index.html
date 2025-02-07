@@ -22,6 +22,7 @@
           :root {
             --color1: rgb(0, 255, 140);
             --color2: rgb(255, 145, 0);
+            --color3: rgb(255, 0, 0);
           }
         </style>
         <defs>
@@ -85,7 +86,7 @@
               style="stop-color: var(--color1); stop-opacity: 0"
             />
           </radialGradient>
-          2
+          <!-- 2 -->
           <linearGradient id="gradient_up2" x1="0%" y1="100%" x2="0%" y2="0%">
             <stop
               offset="0%"
@@ -144,6 +145,67 @@
             <stop
               offset="100%"
               style="stop-color: var(--color2); stop-opacity: 0"
+            />
+          </radialGradient>
+          <!-- 3 -->
+          <linearGradient id="gradient_up3" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop
+              offset="0%"
+              style="stop-color: var(--color3); stop-opacity: 0.3"
+            />
+            <stop
+              offset="100%"
+              style="stop-color: var(--color3); stop-opacity: 1"
+            />
+          </linearGradient>
+          <linearGradient id="gradient_right3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop
+              offset="0%"
+              style="stop-color: var(--color3); stop-opacity: 0.3"
+            />
+            <stop
+              offset="100%"
+              style="stop-color: var(--color3); stop-opacity: 1"
+            />
+          </linearGradient>
+          <linearGradient id="gradient_down3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop
+              offset="0%"
+              style="stop-color: var(--color3); stop-opacity: 0.3"
+            />
+            <stop
+              offset="100%"
+              style="stop-color: var(--color3); stop-opacity: 1"
+            />
+          </linearGradient>
+          <linearGradient id="gradient_left3" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop
+              offset="0%"
+              style="stop-color: var(--color3); stop-opacity: 0.3"
+            />
+            <stop
+              offset="100%"
+              style="stop-color: var(--color3); stop-opacity: 1"
+            />
+          </linearGradient>
+        
+          </linearGradient>
+          <!-- circle gradient -->
+          <radialGradient
+            id="radial3"
+            cx="50%"
+            cy="50%"
+            r="50%"
+            fx="50%"
+            fy="50%"
+          >
+            <stop
+              offset="0%"
+              style="stop-color: var(--color3); stop-opacity: 1"
+            />
+            <stop
+              offset="100%"
+              style="stop-color: var(--color3); stop-opacity: 0"
             />
           </radialGradient>
         </defs>
