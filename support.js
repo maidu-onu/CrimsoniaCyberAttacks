@@ -33,7 +33,7 @@ export const loadSVG = async function (fileName, destination = "body") {
     // Insert the modified SVG content into the specified destination
     document
       .getElementById(destination)
-      .insertAdjacentHTML("afterbegin", tempDiv.innerHTML);
+      .insertAdjacentHTML("beforeend", tempDiv.innerHTML);
   } catch (error) {
     console.error("Error loading SVG:", error);
   }

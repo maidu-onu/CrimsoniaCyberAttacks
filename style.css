@@ -357,32 +357,18 @@ template {
 }
 
 body {
- background-color: rgb(9, 25, 44);
-  /* position: absolute;
-  z-index: 1000;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  height: 100%;
-  pointer-events: none; */
-  overflow: hidden; }
+  background-color: rgb(9, 25, 44);
+}
 
 #mapContainer {
   position: relative;
   height: 100vh;
-  width: 3000px;
-  overflow: hidden;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  /*   position: relative;
-  height: 100vh;
   width: auto;
   overflow: hidden;
   z-index: 1;
   display: flex;
-  justify-content: center; */
+  justify-content: center;
+}
 
 #animationSVG {
   position: absolute;
@@ -402,6 +388,12 @@ body {
   width: auto;
   height: 100%;
   z-index: 10;
+}
+
+.attacked {
+  font-family: Roboto;
+  font-size: 22px;
+  fill: #8deeff;
 }
 
 .circle1 {
@@ -534,4 +526,8 @@ body {
 
 .hidden {
   visibility: hidden;
+}
+.fadeout {
+  opacity: 0;
+  transition: all 0.7s ease-out;
 }

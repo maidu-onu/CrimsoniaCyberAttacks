@@ -66,16 +66,25 @@ const makePath = function (x1, y1, x2, y2, color = 1, bend = 0, animate = 1) {
   latestPath = pathName("path");
   pathIdCount++;
 };
+
+const getCoordsById = function (id) {
+  const bbox1 = document.getElementById(id).getBBox();
+  const centerX1 = bbox1.x + bbox1.width / 2;
+  const centerY1 = bbox1.y + bbox1.height / 2;
+  const center = [centerX1, centerY1];
+  return center;
+};
 ////////////////// PATH by ID //////////////////
 //makes paths from object to object - uses makePath//
 const makePathByID = function (id1, id2, color, bend = bendRandom(1)) {
-  const bbox1 = document.getElementById(id1).getBBox();
-  const centerX1 = bbox1.x + bbox1.width / 2;
-  const centerY1 = bbox1.y + bbox1.height / 2;
-  const bbox2 = document.getElementById(id2).getBBox();
-  const centerX2 = bbox2.x + bbox2.width / 2;
-  const centerY2 = bbox2.y + bbox2.height / 2;
-  makePath(centerX1, centerY1, centerX2, centerY2, color, bend);
+  makePath(
+    getCoordsById(id1)[0],
+    getCoordsById(id1)[1],
+    getCoordsById(id2)[0],
+    getCoordsById(id2)[1],
+    color,
+    bend
+  );
 };
 const removePath = function (pathID) {
   animationSvg.removeChild(document.getElementById(pathID));
@@ -193,17 +202,49 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
       lastTime = Date.now();
       lifeTime ? timeCounter++ : "";
 
-      timeBetween = 5;
+      timeBetween = 3500;
       randomInterval = randomTime(4000); //new random time
       attack(id1, id2, color, bend);
     }
   }, 100);
 };
 
+const showLabel = function (
+  id,
+  appear = 10,
+  fadeAway = 2000,
+  xoffset = 3,
+  yoffset = -10
+) {
+  setTimeout(() => {
+    document.querySelector("#animationSVG").insertAdjacentHTML(
+      "afterbegin",
+      ` <text class="attacked" x="${getCoordsById(id)[0] + xoffset}" y="${
+        getCoordsById(id)[1] - yoffset
+      }">${id}</text>
+`
+    );
+    const textElement = document.querySelector(".attacked");
+    setTimeout(() => {
+      if (textElement) {
+        textElement.classList.add("fadeout");
+      }
+    }, fadeAway);
+    setTimeout(() => {
+      if (textElement) {
+        textElement.remove();
+      }
+    }, 5000);
+  }, appear);
+};
+
 const attack = function (id1, id2, color, bend = 1) {
   makePathByID(id1, id2, color, bendRandom(bend));
   //console.log("Created " + latestPath);
   signal(latestPath);
+  showLabel(id1, 10, 3000, 7, -25);
+  showLabel(id2, 1000, 3000, 5, 5);
+
   //console.log("signalled " + latestPath);
   const thislatestPath = latestPath;
   setTimeout(function () {
@@ -253,24 +294,6 @@ const landHover = function () {
   );
 };
 
-const zoom = function () {
-  // Expose to window namespase for testing purposes
-  window.zoomTiger = svgPanZoom("#mapContainer", {
-    zoomEnabled: true,
-    controlIconsEnabled: false,
-    fit: false,
-    center: false,
-    // viewportSelector: document.getElementById('demo-tiger').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
-  });
-
-  /*  document.getElementById("enable").addEventListener("click", function () {
-    window.zoomTiger.enableControlIcons();
-  });
-  document.getElementById("disable").addEventListener("click", function () {
-    window.zoomTiger.disableControlIcons();
-  }); */
-};
-
 async function initialize() {
   try {
     /////////////ALL GRAPHICAL STUFF//////////////
@@ -278,14 +301,9 @@ async function initialize() {
     await map(); //defines map svg object as const
     await animation();
     landHover();
-    //zoom();
-
-    // Don't use window.onLoad like this in production, because it can only listen to one function.
-
     mapClick(); //eventListener for clicking on map
-    randomSignal("Daka", "Vundan", randomInt(3), 1);
-    randomSignal("Ugrark", "Bakun", randomInt(3), 1);
-    attack("Ugrark", "Daka", randomInt(3), 1);
+    randomSignal("Daka", "Vundan", 1, 1);
+    randomSignal("Ugrark", "Bakun", 1, 1);
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
