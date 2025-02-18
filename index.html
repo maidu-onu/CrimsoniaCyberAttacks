@@ -7,22 +7,24 @@
     <link rel="stylesheet" href="style.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="../js/svg-pan-zoom.js"></script>
     <script src="main.js" type="module" defer></script>
+    
   </head>
   <body>
-    <div id="mapContainer">
+    <svg id="mapContainer" style="" >
       <svg
         id="animationSVG"
         class="svg"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1920 1080"
+        viewBox="0 0 2500 1080"
         preserveAspectRatio="xMidYMin meet"
       >
         <style type="text/css">
           :root {
             --color1: rgb(0, 255, 140);
-            --color2: rgb(255, 145, 0);
-            --color3: rgb(255, 0, 0);
+            --color2: rgb(0, 200, 255);
+            --color3: rgb(187, 0, 255);
           }
         </style>
         <defs>
@@ -210,6 +212,6 @@
           </radialGradient>
         </defs>
       </svg>
-    </div>
+    </svg>
   </body>
 </html>

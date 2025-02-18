@@ -2,10 +2,12 @@
 import {
   loadSVG,
   randomInt,
+  bendRandom,
   getRandomRGB,
-  addCSSID,
+  addCSS,
   cssRuleSelector,
 } from "./support.js";
+
 ///CONFIG///
 const signalDuration = 2500;
 let timeBetween = 0;
@@ -29,7 +31,7 @@ const animation = function () {
 
 //NAME PATHS by type "path", "circle"
 const pathName = function (type) {
-  return `${type}_${String(pathIdCount).padStart(3, "0")}`;
+  return `${type}_${String(pathIdCount).padStart(1, "0")}`;
 };
 
 ///////// MAKE PATH ////////////
@@ -66,7 +68,7 @@ const makePath = function (x1, y1, x2, y2, color = 1, bend = 0, animate = 1) {
 };
 ////////////////// PATH by ID //////////////////
 //makes paths from object to object - uses makePath//
-const makePathByID = function (id1, id2, color, bend) {
+const makePathByID = function (id1, id2, color, bend = bendRandom(1)) {
   const bbox1 = document.getElementById(id1).getBBox();
   const centerX1 = bbox1.x + bbox1.width / 2;
   const centerY1 = bbox1.y + bbox1.height / 2;
@@ -161,17 +163,19 @@ document.addEventListener("visibilitychange", () => {
 
 ////// RANDOM SIGNAL ////////
 //makes signal appear at intervals
-const randomTime = function () {
-  return Math.floor(Math.random() * 4000);
+const randomTime = function (max) {
+  return Math.floor(Math.random() * max);
 };
 
-const randomSignal = function (id1, id2, color, bend) {
+const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
   let lastTime = Date.now();
-  let randomInterval = randomTime(); //this needs to be outside of interval
-  makePathByID(id1, id2, color, bend);
-  let pathName = latestPath;
-  console.log(pathName);
+  let randomInterval = randomTime(4); //this needs to be outside of interval
+  let timeCounter = 0;
+  let pathName;
   let interval1 = setInterval(() => {
+    if (timeCounter > lifeTime) {
+      return;
+    }
     /*  console.log(`timebetween on  ${timeBetween}`);
     console.log(randomInterval + timeBetween);
     console.log(`timeleft ${Date.now() - lastTime}`); */
@@ -180,17 +184,40 @@ const randomSignal = function (id1, id2, color, bend) {
       console.log("stop"); // clears interval after tab hidden
       stoppedSignals.push([id1, id2, color, bend]); // adds signals to stoppedSignals array for later restart
       removePath(pathName);
+      removePath(`#${pathName.replace("path", "circle")}`);
       console.log(stoppedSignals);
       return;
     }
     if (Date.now() > lastTime + randomInterval + timeBetween) {
+      // timebetween is 0 at the very start
       lastTime = Date.now();
-      timeBetween = signalDuration;
-      randomInterval = randomTime();
+      lifeTime ? timeCounter++ : "";
 
-      signal(`${pathName}`);
+      timeBetween = 5;
+      randomInterval = randomTime(4000); //new random time
+      attack(id1, id2, color, bend);
     }
   }, 100);
+};
+
+const attack = function (id1, id2, color, bend = 1) {
+  makePathByID(id1, id2, color, bendRandom(bend));
+  //console.log("Created " + latestPath);
+  signal(latestPath);
+  //console.log("signalled " + latestPath);
+  const thislatestPath = latestPath;
+  setTimeout(function () {
+    if (document.getElementById(thislatestPath)) {
+      removePath(thislatestPath);
+      //  console.log("deleted " + thislatestPath);
+    }
+    //console.log(latestPath + " " + thislatestPath);
+    if (
+      document.getElementById(`${thislatestPath.replace("path", "circle")}`)
+    ) {
+      removePath(`${thislatestPath.replace("path", "circle")}`);
+    }
+  }, signalDuration);
 };
 
 //All animation paths visible from beginning
@@ -200,17 +227,65 @@ cssRuleSelector(".left", "visibility", "visible");
 cssRuleSelector(".down", "visibility", "visible"); */
 
 // function to load main code
+/* const hoverLand = function (){
+  const 
+}
+ */
+const landHover = function () {
+  const landSquare = document.getElementById("land_square");
+  console.log(landSquare.firstElementChild.classList[0]);
+  addCSS(
+    `.${landSquare.firstElementChild.classList[0]}:hover`,
+    `fill:rgb(35, 177, 243);transition:none;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 255, 1))drop-shadow(0 0 5px rgba(0, 255, 255, 1));`
+  );
+  addCSS(
+    `.${landSquare.firstElementChild.classList[0]}`,
+    `
+  transition: all 2s ease-out;
+  stroke:red;
+  
+  stroke-width: 2px !important;
+  stroke-opacity:0;
+  pointer-events: stroke;
+
+  `
+  );
+};
+
+const zoom = function () {
+  // Expose to window namespase for testing purposes
+  window.zoomTiger = svgPanZoom("#mapContainer", {
+    zoomEnabled: true,
+    controlIconsEnabled: false,
+    fit: false,
+    center: false,
+    // viewportSelector: document.getElementById('demo-tiger').querySelector('#g4') // this option will make library to misbehave. Viewport should have no transform attribute
+  });
+
+  /*  document.getElementById("enable").addEventListener("click", function () {
+    window.zoomTiger.enableControlIcons();
+  });
+  document.getElementById("disable").addEventListener("click", function () {
+    window.zoomTiger.disableControlIcons();
+  }); */
+};
+
 async function initialize() {
   try {
     /////////////ALL GRAPHICAL STUFF//////////////
     await loadSVG("map", "mapContainer");
     await map(); //defines map svg object as const
     await animation();
+    landHover();
+    //zoom();
+
+    // Don't use window.onLoad like this in production, because it can only listen to one function.
+
     mapClick(); //eventListener for clicking on map
-    randomSignal("Daka", "Vundan", randomInt(3), (Math.random() - 0.5) * 2);
-    randomSignal("Ugrark", "Bakun", randomInt(3), (Math.random() - 0.5) * 2);
-    randomSignal("Daka", "Vundan", randomInt(3), (Math.random() - 0.5) * 2);
-    randomSignal("Ugrark", "Bakun", randomInt(3), (Math.random() - 0.5) * 2);
+    randomSignal("Daka", "Vundan", randomInt(3), 1);
+    randomSignal("Ugrark", "Bakun", randomInt(3), 1);
+    attack("Ugrark", "Daka", randomInt(3), 1);
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////

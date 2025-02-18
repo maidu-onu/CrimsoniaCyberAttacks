@@ -33,7 +33,7 @@ export const loadSVG = async function (fileName, destination = "body") {
     // Insert the modified SVG content into the specified destination
     document
       .getElementById(destination)
-      .insertAdjacentHTML("beforeend", tempDiv.innerHTML);
+      .insertAdjacentHTML("afterbegin", tempDiv.innerHTML);
   } catch (error) {
     console.error("Error loading SVG:", error);
   }
@@ -48,9 +48,13 @@ export function getRandomRGB() {
   return `rgb(${r}, ${g}, ${b})`; // Return as an RGB string
 }
 
-export function addCSSID(IDName, rules) {
+//ads new css rule
+export function addCSS(Name, rules) {
   const styleSheet = document.styleSheets[0]; // Get the first stylesheet
-  styleSheet.insertRule(`#${IDName} { ${rules} }`, styleSheet.cssRules.length);
+  styleSheet.insertRule(`${Name} { ${rules} }`, styleSheet.cssRules.length);
 }
 
-// Usage example:
+// Amplitude of random bendiness
+export function bendRandom(bendiness) {
+  return (Math.random() - 0.5).toFixed(1) * 2 * bendiness;
+}
