@@ -366,6 +366,8 @@ body {
   height: 100vh;
   width: auto;
   overflow: hidden;
+
+  min-height: 500px;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -400,7 +402,7 @@ body {
 #log {
   position: absolute;
   z-index: 2000;
-  left: 15%;
+  left: 10%;
   top: 20%;
   display: flex;
   flex-direction: column;
@@ -426,28 +428,30 @@ body {
   height: 45px;
   flex-shrink: 0;
   overflow: hidden;
+  font-size: 12px;
 }
 
 .log-content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  gap: 4px;
+  width: 100%;
+  gap: 0.3em;
 }
 .log-city {
   display: flex;
-  gap: 5px;
+  gap: 0.4em;
 
   align-items: center;
 }
 
 .log-title {
   font-family: Roboto;
-  font-size: 16px;
-  width: 350px;
+  font-size: 1.25em;
+  width: 80%;
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis;
+  border: 1px solid white;
 }
 .log-time {
   display: flex;
@@ -468,38 +472,37 @@ body {
   width: 12px;
   height: 12px;
 }
-.threat-circle-1 {
-  background-color: var(--color1);
-  -webkit-mask-image: url("./SVG/threat_circle.svg");
-  mask-image: url("./SVG/threat_circle.svg");
+.threat-circle-1,
+.threat-circle-2,
+.threat-circle-3 {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   width: 30px;
   min-width: 30px;
   margin-right: 10px;
   height: 30px;
+}
+.threat-circle-1 {
+  background-color: var(--color1);
+  -webkit-mask-image: url("./SVG/threat_circle.svg");
+  mask-image: url("./SVG/threat_circle.svg");
 }
 .threat-circle-2 {
   background-color: var(--color2);
   -webkit-mask-image: url("./SVG/threat_circle.svg");
   mask-image: url("./SVG/threat_circle.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  width: 30px;
-  min-width: 30px;
-  margin-right: 10px;
-  height: 30px;
 }
 .threat-circle-3 {
   background-color: var(--color3);
   -webkit-mask-image: url("./SVG/threat_circle.svg");
   mask-image: url("./SVG/threat_circle.svg");
+}
+.log-country-crim,
+.log-country-beryl {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  width: 30px;
-  min-width: 30px;
-  margin-right: 10px;
-  height: 30px;
+  width: 7px;
+  height: 7px;
 }
 .log-country-crim {
   background-color: var(--crimsonia);
@@ -514,58 +517,49 @@ body {
   background-color: var(--berylia);
   -webkit-mask-image: url("./SVG/square.svg");
   mask-image: url("./SVG/square.svg");
+}
+.log-arrow-1,
+.log-arrow-2,
+.log-arrow-3 {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  width: 7px;
-  height: 7px;
+  width: 16px;
+  height: 8px;
 }
 .log-arrow-1 {
   background-color: var(--color1);
   -webkit-mask-image: url("./SVG/arrow.svg");
   mask-image: url("./SVG/arrow.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  width: 16px;
-  height: 8px;
 }
 .log-arrow-2 {
   background-color: var(--color2);
   -webkit-mask-image: url("./SVG/arrow.svg");
   mask-image: url("./SVG/arrow.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  width: 16px;
-  height: 8px;
 }
 .log-arrow-3 {
   background-color: var(--color3);
   -webkit-mask-image: url("./SVG/arrow.svg");
   mask-image: url("./SVG/arrow.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  width: 16px;
-  height: 8px;
 }
-.circle1 {
-  fill: url(#radial1);
+
+.circle1,
+.circle2,
+.circle3 {
   r: 1;
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
 }
+
+.circle1 {
+  fill: url(#radial1);
+}
 .circle2 {
   fill: url(#radial2);
-  r: 1;
-  transform-box: fill-box;
-  transform-origin: center;
   opacity: 0;
 }
 .circle3 {
   fill: url(#radial3);
-  r: 1;
-  transform-box: fill-box;
-  transform-origin: center;
-  opacity: 0;
 }
 .path_test {
   stroke: rgb(93, 166, 255);
@@ -574,118 +568,64 @@ body {
   position: absolute;
   z-index: 100;
 }
-.up1 {
-  stroke: url(#gradient_up1);
+.up1,
+.up2,
+.up3,
+.right1,
+.right2,
+.right3,
+.left1,
+.left2,
+.left3,
+.down1,
+.down2,
+.down3 {
   stroke-width: 3;
   stroke-linecap: round;
   fill: none;
   position: absolute;
   z-index: 100;
   visibility: hidden;
+}
+.up1 {
+  stroke: url(#gradient_up1);
 }
 .right1 {
   stroke: url(#gradient_right1);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .down1 {
   stroke: url(#gradient_down1);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .left1 {
   stroke: url(#gradient_left1);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .up2 {
   stroke: url(#gradient_up2);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .right2 {
   stroke: url(#gradient_right2);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .down2 {
   stroke: url(#gradient_down2);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .left2 {
   stroke: url(#gradient_left2);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .up3 {
   stroke: url(#gradient_up3);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .right3 {
   stroke: url(#gradient_right3);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .down3 {
   stroke: url(#gradient_down3);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .left3 {
   stroke: url(#gradient_left3);
-  stroke-width: 3;
-  stroke-linecap: round;
-  fill: none;
-  position: absolute;
-  z-index: 100;
-  visibility: hidden;
 }
 .visible {
   visibility: visible !important;
 }
-
 .hidden {
   visibility: hidden;
 }

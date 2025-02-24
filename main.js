@@ -8,9 +8,17 @@ import {
   cssRuleSelector,
 } from "./support.js";
 
+import {
+  citiesBerylia,
+  citiesCrimsonia,
+  citiesRevalia,
+  cities,
+  attackDesc,descLvl1, descLvl2, descLvl3
+} from "./data.js";
+
+console.log(cities);
 ///CONFIG///
 const signalDuration = 2500;
-let timeBetween = 0;
 let isTabActive = true;
 /* let activeSignals = [
   "path_001" 
@@ -20,43 +28,7 @@ let pathIdCount = 1; // naming new paths as path_001 etc.
 let latestPath;
 let mapSvg;
 let animationSvg;
-let descLvl1 = [
-  "Network scanning port 80 (CVE-2023-12345)",
-  "XSS vulnerability on /contact-us (CVE-2023-23456)",
-  "Info leak via error messages, System paths revealed (CVE-2023-34567)",
-  "SQL Injection on /submit-form (CVE-2023-45678)",
-  "Clickjacking attempt on banking portal (CVE-2023-56789)",
-  "Buffer overflow crash, Server ABC (CVE-2023-67890)",
-  "IDOR exposed user data on /user-profile (CVE-2023-78901)",
-  "Unauthenticated API access (CVE-2023-89012)",
-  "Session hijacking attempt (CVE-2023-90123)",
-  "Brute-force attempt on weak password policy (CVE-2023-01234)",
-];
-let descLvl2 = [
-  "RCE exploited in Apache HTTP server (CVE-2024-01345)",
-  "Privilege escalation on firewall, Unauthorized access (CVE-2024-02456)",
-  "Authentication bypass on VPN gateway (CVE-2024-03567)",
-  "Directory traversal in CMS (CVE-2024-04678)",
-  "MITM due to weak SSL on VPN (CVE-2024-05789)",
-  "CSRF detected on financial app (CVE-2024-06890)",
-  "DoS attack on IoT device (CVE-2024-07901)",
-  "File upload vulnerability in web app (CVE-2024-08012)",
-  "Command injection in device management (CVE-2024-09123)",
-  "RCE in database management system (CVE-2024-10234)",
-];
-let descLvl3 = [
-  "Zero-Day exploit in enterprise system (CVE-2025-01345)",
-  "Exploited flaw in national infrastructure system (CVE-2025-02456)",
-  "APT malware exploiting OS kernel flaw (CVE-2025-03567)",
-  "SCADA system attack, Unauthorized manipulation (CVE-2025-04678)",
-  "Data leak in government servers (CVE-2025-05789)",
-  "Privilege escalation in military communications (CVE-2025-06890)",
-  "Data exfiltration in cloud service (CVE-2025-07901)",
-  "Critical vulnerability in national power grid (CVE-2025-08012)",
-  "Destructive cyber attack on central banking (CVE-2025-09123)",
-  "Cyber weapon targeting defense networks (CVE-2025-10234)",
-];
-let attackDesc = [descLvl1, descLvl2, descLvl3];
+
 
 const map = function () {
   // only after map exists
@@ -200,7 +172,7 @@ document.addEventListener("visibilitychange", () => {
   isTabActive = !document.hidden;
   if (isTabActive) {
     pathIdCount = 1;
-    timeBetween = 0; //remove delay that is between repeating signals
+    //timeBetween = 0; //remove delay that is between repeating signals
     stoppedSignals.forEach((param) => {
       randomSignal(param[0], param[1], param[2], param[3]);
     });
@@ -213,11 +185,16 @@ document.addEventListener("visibilitychange", () => {
 const randomTime = function (max) {
   return Math.floor(Math.random() * max);
 };
+const makeRandomInterval =function(){
+  return randomTime(24000)
+}
 
 const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
+    }
   let lastTime = Date.now();
-  let randomInterval = randomTime(4); //this needs to be outside of interval
+  randomInterval=makeRandomInterval() //this needs to be outside of interval
   let timeCounter = 0;
+  let timeBetween = 0;
   let pathName;
   let interval1 = setInterval(() => {
     if (timeCounter > lifeTime) {
@@ -240,8 +217,9 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
       lastTime = Date.now();
       lifeTime ? timeCounter++ : "";
 
-      timeBetween = 2500;
-      randomInterval = randomTime(4000); //new random time
+      timeBetween = 4000;
+      randomInterval=makeRandomInterval() //new random time
+      console.log(randomInterval);
       attack(id1, id2, color, bend);
     }
   }, 100);
@@ -332,6 +310,16 @@ const landHover = function () {
   );
 };
 
+const randomCity = function(attCountry='random'){
+  let city;
+  (attCountry==='Berylia')?city=citiesBerylia[randomInt(citiesBerylia.length)-1]:'';
+  (attCountry==='Crimsonia')?city=citiesCrimsonia[randomInt(citiesCrimsonia.length)-1]:'';
+  (attCountry==='Revalia')?city=citiesRevalia[randomInt(citiesRevalia.length)-1]:'';
+  (attCountry==='random')?city=cities[randomInt(cities.length)-1]:'';
+  return city
+}
+console.log(randomCity()); 
+
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
   const html = `<div class="log-event">
   <div class="threat-circle-${threatLevel}"></div>
@@ -368,9 +356,22 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
-    randomSignal("Daka", "Vundan", randomInt(3), 1);
-    randomSignal("Ugrark", "Bancroft", randomInt(3), 1);
-    randomSignal("Ugrark", "Bakun", randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
+
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
@@ -381,3 +382,4 @@ async function initialize() {
 
 //load main code above
 document.addEventListener("DOMContentLoaded", initialize);
+

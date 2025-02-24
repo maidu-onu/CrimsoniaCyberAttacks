@@ -9,6 +9,7 @@ export const cssRuleSelector = function (selector, property, newValue) {
     }
   }
 };
+
 export const loadSVG = async function (fileName, destination = "body") {
   try {
     // Fetch the SVG file
@@ -38,9 +39,11 @@ export const loadSVG = async function (fileName, destination = "body") {
     console.error("Error loading SVG:", error);
   }
 };
+
 export function randomInt(num) {
   return Math.floor(Math.random() * num) + 1;
 }
+
 export function getRandomRGB() {
   const r = Math.floor(Math.random() * 256); // Random number between 0-255
   const g = Math.floor(Math.random() * 256);
