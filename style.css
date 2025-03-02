@@ -365,9 +365,9 @@ body {
   position: relative;
   height: 100vh;
   width: auto;
+  min-height: 43vw;
   overflow: hidden;
 
-  min-height: 500px;
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -416,19 +416,20 @@ body {
   font-family: Roboto;
   padding: 10px;
   flex-shrink: 0;
+  font-size: max(0.55vw, 8px);
 }
 
 .log-event {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 400px; /* Adjust as needed */
+  max-width: 33em; /* Adjust as needed */
   border-radius: 8px;
   color: white;
-  height: 45px;
+  height: 3.75em;
   flex-shrink: 0;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 1em;
 }
 
 .log-content {
@@ -447,15 +448,14 @@ body {
 .log-title {
   font-family: Roboto;
   font-size: 1.25em;
-  width: 80%;
+  width: 24em;
+  max-width: 100%;
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis;
-  border: 1px solid white;
 }
 .log-time {
   display: flex;
-
   align-items: center;
   gap: 2px;
   margin-right: 4px;
@@ -465,7 +465,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 5px;
-  font-size: 14px;
+  font-size: 1.15em;
 }
 
 .log-time-icon {
@@ -477,10 +477,10 @@ body {
 .threat-circle-3 {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  width: 30px;
-  min-width: 30px;
-  margin-right: 10px;
-  height: 30px;
+  width: 2.5em;
+  min-width: 2.5em;
+  margin-right: 0.9em;
+  height: 2.5em;
 }
 .threat-circle-1 {
   background-color: var(--color1);

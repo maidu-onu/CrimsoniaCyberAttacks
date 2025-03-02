@@ -13,7 +13,10 @@ import {
   citiesCrimsonia,
   citiesRevalia,
   cities,
-  attackDesc,descLvl1, descLvl2, descLvl3
+  attackDesc,
+  descLvl1,
+  descLvl2,
+  descLvl3,
 } from "./data.js";
 
 console.log(cities);
@@ -28,7 +31,6 @@ let pathIdCount = 1; // naming new paths as path_001 etc.
 let latestPath;
 let mapSvg;
 let animationSvg;
-
 
 const map = function () {
   // only after map exists
@@ -185,14 +187,13 @@ document.addEventListener("visibilitychange", () => {
 const randomTime = function (max) {
   return Math.floor(Math.random() * max);
 };
-const makeRandomInterval =function(){
-  return randomTime(24000)
-}
+const makeRandomInterval = function () {
+  return randomTime(24000);
+};
 
 const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
-    }
   let lastTime = Date.now();
-  randomInterval=makeRandomInterval() //this needs to be outside of interval
+  let randomInterval = makeRandomInterval(); //this needs to be outside of interval
   let timeCounter = 0;
   let timeBetween = 0;
   let pathName;
@@ -218,7 +219,7 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
       lifeTime ? timeCounter++ : "";
 
       timeBetween = 4000;
-      randomInterval=makeRandomInterval() //new random time
+      randomInterval = makeRandomInterval(); //new random time
       console.log(randomInterval);
       attack(id1, id2, color, bend);
     }
@@ -310,15 +311,21 @@ const landHover = function () {
   );
 };
 
-const randomCity = function(attCountry='random'){
+const randomCity = function (attCountry = "random") {
   let city;
-  (attCountry==='Berylia')?city=citiesBerylia[randomInt(citiesBerylia.length)-1]:'';
-  (attCountry==='Crimsonia')?city=citiesCrimsonia[randomInt(citiesCrimsonia.length)-1]:'';
-  (attCountry==='Revalia')?city=citiesRevalia[randomInt(citiesRevalia.length)-1]:'';
-  (attCountry==='random')?city=cities[randomInt(cities.length)-1]:'';
-  return city
-}
-console.log(randomCity()); 
+  attCountry === "Berylia"
+    ? (city = citiesBerylia[randomInt(citiesBerylia.length) - 1])
+    : "";
+  attCountry === "Crimsonia"
+    ? (city = citiesCrimsonia[randomInt(citiesCrimsonia.length) - 1])
+    : "";
+  attCountry === "Revalia"
+    ? (city = citiesRevalia[randomInt(citiesRevalia.length) - 1])
+    : "";
+  attCountry === "random" ? (city = cities[randomInt(cities.length) - 1]) : "";
+  return city;
+};
+console.log(randomCity());
 
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
   const html = `<div class="log-event">
@@ -356,22 +363,96 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-    randomSignal(randomCity('Crimsonia'), randomCity('Berylia'), randomInt(3), 1);
-
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
+    randomSignal(
+      randomCity("Crimsonia"),
+      randomCity("Berylia"),
+      randomInt(3),
+      1
+    );
 
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
@@ -382,4 +463,3 @@ async function initialize() {
 
 //load main code above
 document.addEventListener("DOMContentLoaded", initialize);
-
