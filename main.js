@@ -277,7 +277,12 @@ const attack = function (id1, id2, color, bend = 1) {
   signal(latestPath);
   showLabel(id1, 10, 1000, 7, -25);
   showLabel(id2, 1000, 2000, 5, 5);
-  attackLog(color, attackDesc[color - 1][randomInt(10) - 1], id1, id2);
+  attackLog(
+    color,
+    attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
+    id1,
+    id2
+  );
   //console.log("signalled " + latestPath);
   const thislatestPath = latestPath;
   setTimeout(function () {

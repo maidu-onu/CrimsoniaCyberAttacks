@@ -405,15 +405,18 @@ body {
   font-family: Roboto;
   font-size: 20px;
   fill: #f278c7;
+  text-shadow: 0 0 5px #212730, 0 0 5px #212730;
 }
 .attacked {
   font-family: Roboto;
   font-size: 20px;
   fill: #8deeff;
+  text-shadow: 0 0 5px #212730, 0 0 5px #212730;
 }
 #LS2025_logo {
   position: absolute;
   width: 28vh;
+  min-width: 150px;
   top: 2.5vh;
   left: calc(51% - 15vh);
   z-index: 10;
@@ -421,27 +424,30 @@ body {
 #CCDCOE_logo {
   position: absolute;
   width: 20vh;
-  top: 85vh;
+  min-width: 100px;
+  top: 88vh;
   left: calc(14% - 10vh);
   z-index: 10;
 }
 #legend {
   position: absolute;
-  width: 9vh;
-  top: 79vh;
+  width: 10vh;
+  min-width: 50px;
+  top: 81vh;
   left: calc(27% - 4.5vh);
   z-index: 10;
 }
 #log {
   position: absolute;
   z-index: 2000;
-  left: calc(20% - 180px);
-  top: 22%;
+  left: calc(18% - 16em);
+  top: 14%;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: max-content;
   height: fit-content;
+  max-height: 60vh;
   max-width: 800px; /* Adjust as needed */
   background: #212730;
   gap: 10px;
@@ -450,6 +456,7 @@ body {
   padding: 10px;
   flex-shrink: 0;
   font-size: max(0.55vw, 8px);
+  overflow: hidden;
   /*  visibility: hidden; */
 }
 
@@ -614,7 +621,7 @@ body {
 .down1,
 .down2,
 .down3 {
-  stroke-width: 3;
+  stroke-width: 3px;
   stroke-linecap: round;
   fill: none;
   position: absolute;
@@ -666,4 +673,16 @@ body {
 .fadeout {
   opacity: 0;
   transition: all 0.7s ease-out;
+}
+@media (max-width: 850px) {
+  #log {
+    display: none;
+  }
+  #legend {
+    position: absolute;
+    width: 9vh;
+    top: 62vh;
+    left: calc(13% - 4.5vh);
+    z-index: 10;
+  }
 }
