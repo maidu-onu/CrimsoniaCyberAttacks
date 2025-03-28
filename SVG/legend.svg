@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.71 128.82">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-family: Archivo-Regular, Archivo;
+        font-size: 16.15px;
+      }
+
+      .cls-3 {
+        fill: url(#radial-gradient-2);
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke-width: 0px;
+      }
+
+      .cls-4 {
+        fill: url(#radial-gradient);
+      }
+
+      .cls-5 {
+        fill: url(#radial-gradient-3);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="14.06" cy="14.06" fx="14.06" fy="14.06" r="14.06" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#09d517"/>
+      <stop offset="1" stop-color="#09d517" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="14.06" cy="64.41" fx="14.06" fy="64.41" r="14.06" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd517"/>
+      <stop offset="1" stop-color="#ffd517" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-3" cx="14.06" cy="114.77" fx="14.06" fy="114.77" r="14.06" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff3c17"/>
+      <stop offset="1" stop-color="#ff3c17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="legend">
+    <g>
+      <text class="cls-2" transform="translate(36.38 18.58)"><tspan x="0" y="0">Exploit</tspan></text>
+      <circle class="cls-4" cx="14.06" cy="14.06" r="14.06"/>
+    </g>
+    <g>
+      <text class="cls-2" transform="translate(35.99 68.93)"><tspan x="0" y="0">Phising</tspan></text>
+      <circle class="cls-3" cx="14.06" cy="64.41" r="14.06"/>
+    </g>
+    <g>
+      <text class="cls-2" transform="translate(34.21 119.29)"><tspan x="0" y="0">Mal</tspan><tspan class="cls-1" x="26.12" y="0">w</tspan><tspan x="37.64" y="0">a</tspan><tspan class="cls-1" x="46.44" y="0">r</tspan><tspan x="51.64" y="0">e</tspan></text>
+      <circle class="cls-5" cx="14.06" cy="114.77" r="14.06"/>
+    </g>
+  </g>
+</svg>

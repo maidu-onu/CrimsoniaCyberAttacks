@@ -1,4 +1,11 @@
 "use strict";
+export const countries = [
+  "Berylia",
+  "Crimsonia",
+  "Revalia",
+  "Netoria",
+  "random",
+];
 export const citiesBerylia = [
   "Bancroft",
   "Moazac",
@@ -15,7 +22,6 @@ export const citiesBerylia = [
   "Carcastle",
   "Zechan",
   "Janford",
-  "Roseiron",
   "Wildehill",
   "Vundan",
   "Tettlewick",
@@ -33,6 +39,7 @@ export const citiesCrimsonia = [
   "Streka",
   "Ugrark",
   "Vrodnard",
+  "Roseiron",
   "Daka",
   "Srodon",
   "Vlando",
@@ -50,7 +57,22 @@ export const citiesRevalia = [
   "Njordheim",
   "Runestad",
 ];
-export const cities = [...citiesBerylia, ...citiesCrimsonia, ...citiesRevalia];
+
+export const citiesNetoria = [
+  "Norvayne",
+  "Valharm",
+  "Marvyn",
+  "Solhaven",
+  "Elden",
+  "Stornholm",
+  "Havenbrook",
+];
+export const cities = [
+  ...citiesBerylia,
+  ...citiesCrimsonia,
+  ...citiesRevalia,
+  ...citiesNetoria,
+];
 
 export const descLvl1 = [
   "Network scanning port 80 (CVE-2023-12345)",

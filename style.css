@@ -352,6 +352,13 @@ template {
 
 /* RESETS END */
 
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/ROBOTO-REGULAR_0.TTF") format("truetype"); /* Adjust path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --crimsonia: rgb(212, 9, 104);
   --berylia: rgb(38, 93, 243);
@@ -359,6 +366,7 @@ template {
 
 body {
   background-color: rgb(9, 25, 44);
+  min-height: 540px;
 }
 
 #mapContainer {
@@ -393,17 +401,42 @@ body {
   z-index: 10;
 }
 
+.attacker {
+  font-family: Roboto;
+  font-size: 20px;
+  fill: #f278c7;
+}
 .attacked {
   font-family: Roboto;
   font-size: 20px;
   fill: #8deeff;
 }
-
+#LS2025_logo {
+  position: absolute;
+  width: 28vh;
+  top: 2.5vh;
+  left: calc(51% - 15vh);
+  z-index: 10;
+}
+#CCDCOE_logo {
+  position: absolute;
+  width: 20vh;
+  top: 85vh;
+  left: calc(14% - 10vh);
+  z-index: 10;
+}
+#legend {
+  position: absolute;
+  width: 9vh;
+  top: 79vh;
+  left: calc(27% - 4.5vh);
+  z-index: 10;
+}
 #log {
   position: absolute;
   z-index: 2000;
-  left: 10%;
-  top: 20%;
+  left: calc(20% - 180px);
+  top: 22%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -417,6 +450,7 @@ body {
   padding: 10px;
   flex-shrink: 0;
   font-size: max(0.55vw, 8px);
+  /*  visibility: hidden; */
 }
 
 .log-event {
@@ -469,8 +503,8 @@ body {
 }
 
 .log-time-icon {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 .threat-circle-1,
 .threat-circle-2,

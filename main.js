@@ -12,6 +12,8 @@ import {
   citiesBerylia,
   citiesCrimsonia,
   citiesRevalia,
+  citiesNetoria,
+  countries,
   cities,
   attackDesc,
   descLvl1,
@@ -19,7 +21,7 @@ import {
   descLvl3,
 } from "./data.js";
 
-console.log(cities);
+import { setTimeBetween, setRandomInterval } from "./settings.js";
 ///CONFIG///
 const signalDuration = 2500;
 let isTabActive = true;
@@ -188,15 +190,18 @@ const randomTime = function (max) {
   return Math.floor(Math.random() * max);
 };
 const makeRandomInterval = function () {
-  return randomTime(24000);
+  return randomTime(setRandomInterval);
 };
 
 const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
   let lastTime = Date.now();
-  let randomInterval = makeRandomInterval(); //this needs to be outside of interval
+  let randomInterval = makeRandomInterval() * 0.5; //this needs to be outside of interval, first interval is smaller
+  //console.log(randomInterval);
   let timeCounter = 0;
   let timeBetween = 0;
   let pathName;
+  let city1 = id1;
+  let city2 = id2;
   let interval1 = setInterval(() => {
     if (timeCounter > lifeTime) {
       return;
@@ -218,10 +223,19 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
       lastTime = Date.now();
       lifeTime ? timeCounter++ : "";
 
-      timeBetween = 4000;
+      timeBetween = setTimeBetween;
       randomInterval = makeRandomInterval(); //new random time
-      console.log(randomInterval);
-      attack(id1, id2, color, bend);
+      //console.log(randomInterval);
+      let city1 = id1;
+      let city2 = id2;
+      if (countries.includes(id1)) {
+        // if id is named after country name(from array) then it will be random city from that country each time attack is run
+        city1 = randomCity(id1);
+      }
+      if (countries.includes(id2)) {
+        city2 = randomCity(id2);
+      }
+      attack(city1, city2, color, bend);
     }
   }, 100);
 };
@@ -233,15 +247,17 @@ const showLabel = function (
   xoffset = 3,
   yoffset = -10
 ) {
+  const who = citiesCrimsonia.includes(id) ? "attacker" : "attacked";
+
   setTimeout(() => {
     document.querySelector("#animationSVG").insertAdjacentHTML(
       "afterbegin",
-      ` <text class="attacked" x="${getCoordsById(id)[0] + xoffset}" y="${
+      ` <text class=${who} x="${getCoordsById(id)[0] + xoffset}" y="${
         getCoordsById(id)[1] - yoffset
       }">${id}</text>
 `
     );
-    const textElement = document.querySelector(".attacked");
+    const textElement = document.querySelector(`.${who}`);
     setTimeout(() => {
       if (textElement) {
         textElement.classList.add("fadeout");
@@ -291,9 +307,9 @@ cssRuleSelector(".down", "visibility", "visible"); */
  */
 const landHover = function () {
   const landSquare = document.getElementById("land_square");
-  console.log(landSquare.firstElementChild.classList[0]);
+  //console.log(landSquare.firstElementChild.classList[0]);
   addCSS(
-    `.${landSquare.firstElementChild.classList[0]}:hover`,
+    `.${landSquare.firstElementChild.classList[0]}:hover`, //checks the name of the class that SVG automatically assigns to square element
     `fill:rgb(35, 177, 243);transition:none;
     filter: drop-shadow(0 0 5px rgba(0, 255, 255, 1))drop-shadow(0 0 5px rgba(0, 255, 255, 1));`
   );
@@ -322,10 +338,12 @@ const randomCity = function (attCountry = "random") {
   attCountry === "Revalia"
     ? (city = citiesRevalia[randomInt(citiesRevalia.length) - 1])
     : "";
+  attCountry === "Netoria"
+    ? (city = citiesNetoria[randomInt(citiesNetoria.length) - 1])
+    : "";
   attCountry === "random" ? (city = cities[randomInt(cities.length) - 1]) : "";
   return city;
 };
-console.log(randomCity());
 
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
   const html = `<div class="log-event">
@@ -363,97 +381,19 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-    randomSignal(
-      randomCity("Crimsonia"),
-      randomCity("Berylia"),
-      randomInt(3),
-      1
-    );
-
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7);
+    randomSignal("Crimsonia", "Netoria", randomInt(3), 0.7);
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
   } catch (error) {
