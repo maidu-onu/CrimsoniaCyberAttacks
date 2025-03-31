@@ -198,7 +198,15 @@ document.addEventListener("visibilitychange", () => {
     pathIdCount = 1;
     //timeBetween = 0; //remove delay that is between repeating signals
     stoppedSignals.forEach((param) => {
-      randomSignal(param[0], param[1], param[2], param[3]);
+      randomSignal(
+        param[0],
+        param[1],
+        param[2],
+        param[3],
+        param[4],
+        param[5],
+        param[6]
+      );
     });
     stoppedSignals = [];
   }
@@ -216,8 +224,8 @@ const randomTime = function (max) {
 const randomSignal = function (
   id1,
   id2,
-  color,
-  bend,
+  color = randomInt(3),
+  bend = 1,
   interval = setRandomInterval,
   durationMod = 1
 ) {
@@ -236,7 +244,7 @@ const randomSignal = function (
     if (!isTabActive) {
       clearInterval(interval1);
       console.log("stop"); // clears interval after tab hidden
-      stoppedSignals.push([id1, id2, color, bend]); // adds signals to stoppedSignals array for later restart
+      stoppedSignals.push([id1, id2, color, bend, interval, durationMod]); // adds signals to stoppedSignals array for later restart
       //removePath(pathName);
       //removePath(`#${pathName.replace("path", "circle")}`);
       console.log(stoppedSignals);
