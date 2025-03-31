@@ -499,6 +499,7 @@ body {
   font-size: 1.25em;
   width: 24em;
   max-width: 100%;
+  color: red;
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis;
