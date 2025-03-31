@@ -583,6 +583,14 @@ body {
   mask-image: url("./SVG/arrow.svg");
 }
 
+.ease {
+  transition: all 0.3s ease-in-out;
+  overflow: visible !important;
+}
+.start-glow {
+  filter: brightness(2);
+}
+
 .circle1,
 .circle2,
 .circle3 {
@@ -620,7 +628,10 @@ body {
 .left3,
 .down1,
 .down2,
-.down3 {
+.down3,
+.type1,
+.type2,
+.type3 {
   stroke-width: 3px;
   stroke-linecap: round;
   fill: none;
@@ -663,6 +674,15 @@ body {
 }
 .left3 {
   stroke: url(#gradient_left3);
+}
+.type1 {
+  stroke: url(#gradient_left3);
+}
+.type2 {
+  stroke: url(#gradient_left3);
+}
+.type3 {
+  stroke: var(--color1);
 }
 .visible {
   visibility: visible !important;

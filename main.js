@@ -21,9 +21,13 @@ import {
   descLvl3,
 } from "./data.js";
 
-import { setTimeBetween, setRandomInterval } from "./settings.js";
+import {
+  setTimeBetween,
+  setRandomInterval,
+  signalDuration,
+} from "./settings.js";
 ///CONFIG///
-const signalDuration = 2500;
+
 let isTabActive = true;
 /* let activeSignals = [
   "path_001" 
@@ -140,33 +144,36 @@ const mapClick = function () {
 };
 
 //// SIGNAL //// Function that creates line and circular explosion signal after
-const signal = function (pathName, delay = 0) {
+const signal = function (pathName, circle = 1) {
+  const syncOffset = (duration) => duration * (1 - Math.sqrt(2) / 2);
   let timeline = anime.timeline({
     loop: false,
     direction: "normal",
   });
   const svgPath = document.querySelector(`#${pathName}`);
-  var pathLength = svgPath.getTotalLength();
+  let pathLength = svgPath.getTotalLength();
   svgPath.style.visibility = "visible";
   timeline.add({
     targets: svgPath,
     strokeDashoffset: [anime.setDashoffset, -pathLength],
     easing: "easeInOutSine",
-    duration: signalDuration,
-    delay: delay,
+    duration: signalDuration * pathLength,
+    delay: 0,
   });
+  if (circle === 1) {
+    timeline.add(
+      {
+        targets: `#${pathName.replace("path", "circle")}`, // animates circle_ with same suffix as path
+        opacity: 1,
+        scale: [0, 20, 0], // Animate from 1 to 20 and back to 1
+        duration: 1000, // Duration for each animation cycle
+        //direction: "alternate", // Alternate between scaling up and down
+        easing: "easeOutSine",
+      },
 
-  timeline.add(
-    {
-      targets: `#${pathName.replace("path", "circle")}`, // creates circle_ with same suffix as path
-      opacity: 1,
-      scale: [0, 20, 0], // Animate from 1 to 20 and back to 1
-      duration: 1200, // Duration for each animation cycle
-      //direction: "alternate", // Alternate between scaling up and down
-      easing: "easeOutSine",
-    },
-    `-=${signalDuration * 0.6}`
-  );
+      `-=${syncOffset(signalDuration * pathLength) * 2}`
+    );
+  }
 };
 
 //It restarts signals once tab is visible
@@ -184,18 +191,27 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-////// RANDOM SIGNAL ////////
 //makes signal appear at intervals
 const randomTime = function (max) {
   return Math.floor(Math.random() * max);
 };
-const makeRandomInterval = function () {
+/* const makeRandomInterval = function () {
   return randomTime(setRandomInterval);
-};
+}; */
 
-const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
+//////////////////////////////
+//////  RANDOMSIGNAL  //////
+////////////////////////////
+
+const randomSignal = function (
+  id1,
+  id2,
+  color,
+  bend,
+  interval = setRandomInterval
+) {
   let lastTime = Date.now();
-  let randomInterval = makeRandomInterval() * 0.5; //this needs to be outside of interval, first interval is smaller
+  let randomInterval = randomTime(interval) * 0.5; //this needs to be outside of interval, first interval is smaller
   //console.log(randomInterval);
   let timeCounter = 0;
   let timeBetween = 0;
@@ -203,9 +219,6 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
   let city1 = id1;
   let city2 = id2;
   let interval1 = setInterval(() => {
-    if (timeCounter > lifeTime) {
-      return;
-    }
     /*  console.log(`timebetween on  ${timeBetween}`);
     console.log(randomInterval + timeBetween);
     console.log(`timeleft ${Date.now() - lastTime}`); */
@@ -221,10 +234,9 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
     if (Date.now() > lastTime + randomInterval + timeBetween) {
       // timebetween is 0 at the very start
       lastTime = Date.now();
-      lifeTime ? timeCounter++ : "";
 
       timeBetween = setTimeBetween;
-      randomInterval = makeRandomInterval(); //new random time
+      randomInterval = randomTime(interval); //new random time
       //console.log(randomInterval);
       let city1 = id1;
       let city2 = id2;
@@ -235,7 +247,15 @@ const randomSignal = function (id1, id2, color, bend, lifeTime = 0) {
       if (countries.includes(id2)) {
         city2 = randomCity(id2);
       }
-      attack(city1, city2, color, bend);
+      if (city2 !== 0) {
+        attack(city1, city2, color, bend);
+      } else {
+        document
+          .getElementById(id1)
+          .classList.remove(...document.getElementById(id1).classList);
+        document.getElementById(id1).classList.add(`up${color}`);
+        signal(id1, 0);
+      } // if second id is 0 it wont be animation between two ID-s, but one pre-drawn line.
     }
   }, 100);
 };
@@ -274,6 +294,11 @@ const showLabel = function (
 const attack = function (id1, id2, color, bend = 1) {
   makePathByID(id1, id2, color, bendRandom(bend));
   //console.log("Created " + latestPath);
+  const element = document.querySelector(`#${id1}`);
+  element.classList.add("ease", "start-glow");
+  setTimeout(() => {
+    element.classList.toggle("start-glow");
+  }, 400);
   signal(latestPath);
   showLabel(id1, 10, 1000, 7, -25);
   showLabel(id2, 1000, 2000, 5, 5);
@@ -285,6 +310,8 @@ const attack = function (id1, id2, color, bend = 1) {
   );
   //console.log("signalled " + latestPath);
   const thislatestPath = latestPath;
+  const svgPath = document.querySelector(`#${thislatestPath}`);
+  let pathLength = svgPath.getTotalLength();
   setTimeout(function () {
     if (document.getElementById(thislatestPath)) {
       removePath(thislatestPath);
@@ -296,7 +323,7 @@ const attack = function (id1, id2, color, bend = 1) {
     ) {
       removePath(`${thislatestPath.replace("path", "circle")}`);
     }
-  }, signalDuration);
+  }, signalDuration * pathLength);
 };
 
 //All animation paths visible from beginning
@@ -386,19 +413,13 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7);
-    randomSignal("Crimsonia", "Netoria", randomInt(3), 0.7);
+    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7, 3000);
+    randomSignal("Crimsonia", "Berylia", 2, 13.7, 3000);
+    randomSignal("Crimsonia", "Berylia", 2, 13.7);
+    randomSignal("Crimsonia", "Berylia", 2, 13.7);
+
+    randomSignal("westPoint1", 0, randomInt(3), 0.7, 3000);
+    randomSignal("westPoint12", 0, randomInt(3), 0.7, 3000);
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
   } catch (error) {
