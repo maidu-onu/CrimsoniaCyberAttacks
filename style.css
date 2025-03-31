@@ -718,16 +718,16 @@ body {
   #legend {
     position: absolute;
     width: 9vh;
-    top: 62vh;
+    top: 53vh;
     left: calc(13% - 4.5vh);
     z-index: 10;
   }
   #CCDCOE_logo {
     position: absolute;
-    width: 13vh;
+    width: 12vh;
     min-width: 100px;
-    top: 80vh;
-    left: calc(19% - 10vh);
+    top: 78vh;
+    left: calc(26% - 10vh);
     z-index: 10;
   }
 }
