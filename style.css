@@ -358,6 +358,12 @@ template {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Klingon";
+  src: url("./fonts/klingon font.ttf") format("truetype"); /* Adjust path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
   --crimsonia: rgb(212, 9, 104);
@@ -459,7 +465,9 @@ body {
   overflow: hidden;
   /*  visibility: hidden; */
 }
-
+.splash {
+  filter: hue-rotate(330deg) brightness(0.9) saturate(2);
+}
 .log-event {
   display: flex;
   align-items: center;
@@ -488,6 +496,15 @@ body {
 
 .log-title {
   font-family: Roboto;
+  font-size: 1.25em;
+  width: 24em;
+  max-width: 100%;
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis;
+}
+.log-title-klingon {
+  font-family: Klingon;
   font-size: 1.25em;
   width: 24em;
   max-width: 100%;
@@ -637,7 +654,7 @@ body {
   fill: none;
   position: absolute;
   z-index: 100;
-  visibility: hidden;
+  visibility: visible;
 }
 .up1 {
   stroke: url(#gradient_up1);

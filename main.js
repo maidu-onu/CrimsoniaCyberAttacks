@@ -144,34 +144,47 @@ const mapClick = function () {
 };
 
 //// SIGNAL //// Function that creates line and circular explosion signal after
-const signal = function (pathName, circle = 1) {
-  const syncOffset = (duration) => duration * (1 - Math.sqrt(2) / 2);
+const signal = function (pathName, circle = 1, durationMod = 1) {
   let timeline = anime.timeline({
     loop: false,
     direction: "normal",
   });
   const svgPath = document.querySelector(`#${pathName}`);
-  let pathLength = svgPath.getTotalLength();
+  var pathLength = svgPath.getTotalLength();
   svgPath.style.visibility = "visible";
   timeline.add({
     targets: svgPath,
     strokeDashoffset: [anime.setDashoffset, -pathLength],
     easing: "easeInOutSine",
-    duration: signalDuration * pathLength,
+    duration: signalDuration * durationMod,
     delay: 0,
   });
   if (circle === 1) {
+    // circle is created at the end of path
     timeline.add(
       {
         targets: `#${pathName.replace("path", "circle")}`, // animates circle_ with same suffix as path
         opacity: 1,
         scale: [0, 20, 0], // Animate from 1 to 20 and back to 1
-        duration: 1000, // Duration for each animation cycle
+        duration: 1200, // Duration for each animation cycle
         //direction: "alternate", // Alternate between scaling up and down
         easing: "easeOutSine",
       },
-
-      `-=${syncOffset(signalDuration * pathLength) * 2}`
+      `-=${signalDuration * durationMod * 0.6}`
+    );
+  }
+  if (circle === 2) {
+    //predrawn circle animates at the end of the path
+    timeline.add(
+      {
+        targets: `#${pathName}_circle`, // animates circle_ with same suffix as path
+        opacity: 1,
+        scale: [0, 20, 0], // Animate from 1 to 20 and back to 1
+        duration: 1200, // Duration for each animation cycle
+        //direction: "alternate", // Alternate between scaling up and down
+        easing: "easeOutSine",
+      },
+      `-=${signalDuration * durationMod * 0.6}`
     );
   }
 };
@@ -191,6 +204,7 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
+////// RANDOM SIGNAL ////////
 //makes signal appear at intervals
 const randomTime = function (max) {
   return Math.floor(Math.random() * max);
@@ -199,16 +213,13 @@ const randomTime = function (max) {
   return randomTime(setRandomInterval);
 }; */
 
-//////////////////////////////
-//////  RANDOMSIGNAL  //////
-////////////////////////////
-
 const randomSignal = function (
   id1,
   id2,
   color,
   bend,
-  interval = setRandomInterval
+  interval = setRandomInterval,
+  durationMod = 1
 ) {
   let lastTime = Date.now();
   let randomInterval = randomTime(interval) * 0.5; //this needs to be outside of interval, first interval is smaller
@@ -236,25 +247,72 @@ const randomSignal = function (
       lastTime = Date.now();
 
       timeBetween = setTimeBetween;
-      randomInterval = randomTime(interval); //new random time
+      randomInterval = randomTime(interval) + signalDuration * durationMod; //new random time
       //console.log(randomInterval);
       let city1 = id1;
       let city2 = id2;
       if (countries.includes(id1)) {
         // if id is named after country name(from array) then it will be random city from that country each time attack is run
         city1 = randomCity(id1);
+        while (city1 === "West_Point") {
+          city1 = randomCity(id1);
+        }
       }
       if (countries.includes(id2)) {
         city2 = randomCity(id2);
       }
       if (city2 !== 0) {
-        attack(city1, city2, color, bend);
+        attack(city1, city2, color, bend); //business as usual
       } else {
-        document
-          .getElementById(id1)
-          .classList.remove(...document.getElementById(id1).classList);
-        document.getElementById(id1).classList.add(`up${color}`);
-        signal(id1, 0);
+        // predrawn paths
+        const element = document.getElementById(id1);
+        const circle = document.getElementById(`${id1}_circle`);
+        element.classList.remove(...element.classList); // empty classlist of path
+        if (circle) {
+          circle.classList.remove(...circle.classList);
+          circle.classList.add(`circle${color}`);
+          circle.removeAttribute("r");
+          console.log(circle);
+        }
+        element.classList.add(`up${color}`); // if layer ID ends with _w there will be no circle at the end of the path, but water splash
+        if (id1.slice(-2) == "_w") {
+          showLabel("West_Point", 10, 1000, 7, -25, "West Point");
+          signal(id1, 0, durationMod);
+          const splash = 50;
+          ///
+          setTimeout(() => {
+            document.querySelector("#animationSVG").insertAdjacentHTML(
+              "afterbegin",
+              ` <image class="splash" width="${splash}px" x="${
+                getCoordsById(`${city1}_circle`)[0] - splash * 0.47
+              }" y="${
+                getCoordsById(`${city1}_circle`)[1] - splash * 0.7
+              }" href=./SVG/splash.gif>
+          `
+            );
+            setTimeout(() => {
+              if (document.querySelector(".splash")) {
+                animationSvg.removeChild(document.querySelector(".splash"));
+              }
+            }, 1000);
+          }, signalDuration * durationMod * 0.5);
+
+          attackLog(
+            color,
+            attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
+            "West Point",
+            "..."
+          );
+        } else {
+          attackLog(
+            color,
+            attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
+            "West Point",
+            "West Point"
+          );
+          showLabel("West_Point", 10, 1000, 7, -25, "West Point");
+          signal(id1, 2, durationMod);
+        } // second parameter must be 2 if it is predrawn path;
       } // if second id is 0 it wont be animation between two ID-s, but one pre-drawn line.
     }
   }, 100);
@@ -265,7 +323,8 @@ const showLabel = function (
   appear = 10,
   fadeAway = 2000,
   xoffset = 3,
-  yoffset = -10
+  yoffset = -10,
+  customID
 ) {
   const who = citiesCrimsonia.includes(id) ? "attacker" : "attacked";
 
@@ -274,7 +333,7 @@ const showLabel = function (
       "afterbegin",
       ` <text class=${who} x="${getCoordsById(id)[0] + xoffset}" y="${
         getCoordsById(id)[1] - yoffset
-      }">${id}</text>
+      }">${customID ? customID : id}</text>
 `
     );
     const textElement = document.querySelector(`.${who}`);
@@ -310,8 +369,6 @@ const attack = function (id1, id2, color, bend = 1) {
   );
   //console.log("signalled " + latestPath);
   const thislatestPath = latestPath;
-  const svgPath = document.querySelector(`#${thislatestPath}`);
-  let pathLength = svgPath.getTotalLength();
   setTimeout(function () {
     if (document.getElementById(thislatestPath)) {
       removePath(thislatestPath);
@@ -323,7 +380,7 @@ const attack = function (id1, id2, color, bend = 1) {
     ) {
       removePath(`${thislatestPath.replace("path", "circle")}`);
     }
-  }, signalDuration * pathLength);
+  }, signalDuration);
 };
 
 //All animation paths visible from beginning
@@ -378,10 +435,15 @@ const randomCity = function (attCountry = "random") {
 };
 
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
+  let klingon;
+  randomInt(8) === 8
+    ? (klingon = "log-title-klingon")
+    : (klingon = "log-title");
+
   const html = `<div class="log-event">
   <div class="threat-circle-${threatLevel}"></div>
       <div class="log-content">
-          <div class="log-title">${description}
+          <div class="${klingon}"}>${description}
           </div>
           <div class="log-details">
               <div class="log-time"><img src="./SVG/clock.svg" class="log-time-icon">
@@ -413,13 +475,22 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
-    randomSignal("Crimsonia", "Berylia", randomInt(1), 0.7, 3000);
-    randomSignal("Crimsonia", "Berylia", 2, 13.7, 3000);
-    randomSignal("Crimsonia", "Berylia", 2, 13.7);
-    randomSignal("Crimsonia", "Berylia", 2, 13.7);
 
-    randomSignal("westPoint1", 0, randomInt(3), 0.7, 3000);
-    randomSignal("westPoint12", 0, randomInt(3), 0.7, 3000);
+    randomSignal("Crimsonia", "Berylia", 1, 0.7);
+    randomSignal("Crimsonia", "Berylia", 1, 0.7);
+    randomSignal("Crimsonia", "Berylia", 1, 0.7);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
+    randomSignal("Crimsonia", "Netoria", randomInt(3), 0.7);
+
+    randomSignal("westPoint1_w", 0, randomInt(3), 1, 300000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
+    randomSignal("westPoint2_w", 0, randomInt(3), 1, 300000, 3);
+    randomSignal("westPoint3", 0, randomInt(3), 1, 300000, 2);
+    randomSignal("westPoint4", 0, randomInt(3), 1, 300000, 2);
     //activeSignals.forEach(randomSignal);
     ////////////////////////////////////////////////
   } catch (error) {
