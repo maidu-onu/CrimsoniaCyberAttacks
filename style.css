@@ -499,7 +499,6 @@ body {
   font-size: 1.25em;
   width: 24em;
   max-width: 100%;
-  color: red;
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis;
@@ -721,6 +720,14 @@ body {
     width: 9vh;
     top: 62vh;
     left: calc(13% - 4.5vh);
+    z-index: 10;
+  }
+  #CCDCOE_logo {
+    position: absolute;
+    width: 13vh;
+    min-width: 100px;
+    top: 80vh;
+    left: calc(19% - 10vh);
     z-index: 10;
   }
 }
