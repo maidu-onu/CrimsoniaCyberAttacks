@@ -270,7 +270,16 @@ const randomSignal = function (
         city2 = randomCity(id2);
       }
       if (city2 !== 0) {
-        attack(city1, city2, color, bend); //business as usual
+        attack(city1, city2, color, bend); //business as usual;
+        if (countries.includes(id2) && randomInt(8) === 8) {
+          //sometimes attacks spread inside target country
+          // sometimes attack spread out
+          setTimeout(() => {
+            for (let i = 0; i < randomInt(2) + 1; i++) {
+              attack(city2, randomCity(id2), color, bend, 0);
+            }
+          }, signalDuration * durationMod - 1500);
+        }
       } else {
         // predrawn paths
         const element = document.getElementById(id1);
@@ -358,7 +367,7 @@ const showLabel = function (
   }, appear);
 };
 
-const attack = function (id1, id2, color, bend = 1) {
+const attack = function (id1, id2, color, bend = 1, log = 1) {
   makePathByID(id1, id2, color, bendRandom(bend));
   //console.log("Created " + latestPath);
   const element = document.querySelector(`#${id1}`);
@@ -367,14 +376,18 @@ const attack = function (id1, id2, color, bend = 1) {
     element.classList.toggle("start-glow");
   }, 400);
   signal(latestPath);
-  showLabel(id1, 10, 1000, 7, -25);
+  if (log === 1) {
+    showLabel(id1, 10, 1000, 7, -25);
+  }
   showLabel(id2, 1000, 2000, 5, 5);
-  attackLog(
-    color,
-    attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
-    id1,
-    id2
-  );
+  if (log === 1) {
+    attackLog(
+      color,
+      attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
+      id1,
+      id2
+    );
+  }
   //console.log("signalled " + latestPath);
   const thislatestPath = latestPath;
   setTimeout(function () {
@@ -484,15 +497,15 @@ async function initialize() {
 
     mapClick(); //eventListener for clicking on map
 
+    randomSignal("Crimsonia", "Berylia", 1, 1.7);
     randomSignal("Crimsonia", "Berylia", 1, 0.7);
     randomSignal("Crimsonia", "Berylia", 1, 0.7);
-    randomSignal("Crimsonia", "Berylia", 1, 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 30000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 60000);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
+    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
+    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
     randomSignal("Crimsonia", "Netoria", randomInt(3), 0.7);
 
     randomSignal("westPoint1_w", 0, randomInt(3), 1, 300000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier

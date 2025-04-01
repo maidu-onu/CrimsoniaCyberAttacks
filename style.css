@@ -466,7 +466,7 @@ body {
   /*  visibility: hidden; */
 }
 .splash {
-  filter: hue-rotate(330deg) brightness(0.9) saturate(2);
+  filter: hue-rotate(330deg) brightness(1.1) saturate(2);
 }
 .log-event {
   display: flex;
