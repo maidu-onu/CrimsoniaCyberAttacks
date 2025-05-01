@@ -24901,6 +24901,59 @@
         <rect class="cls-6" x="1070.6" y="390.88" width="4.42" height="4.42" rx=".9" ry=".9"/>
       </g>
     </g>
+    <g id="BT_points">
+      <g id="bt06">
+        <rect class="cls-6" x="1361.21" y="260.75" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt08">
+        <rect class="cls-6" x="1410.04" y="244.25" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt15">
+        <rect class="cls-6" x="1234.07" y="399.99" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt11">
+        <rect class="cls-6" x="1403.58" y="387.89" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt10">
+        <rect class="cls-6" x="1482.29" y="375.78" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt12">
+        <rect class="cls-6" x="1330.94" y="351.56" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt13">
+        <rect class="cls-6" x="1306.72" y="393.94" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt16">
+        <rect class="cls-6" x="1185.64" y="357.62" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt14">
+        <rect class="cls-6" x="1252.24" y="345.51" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt04">
+        <rect class="cls-6" x="1215.91" y="321.29" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt05">
+        <rect class="cls-6" x="1282.51" y="303.13" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt02">
+        <rect class="cls-6" x="1112.99" y="327.35" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt01">
+        <rect class="cls-6" x="1029.99" y="321.18" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt03">
+        <rect class="cls-6" x="1155.37" y="303.13" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt07">
+        <rect class="cls-6" x="1409.64" y="315.24" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt09">
+        <rect class="cls-6" x="1464.12" y="315.24" width="4.38" height="4.38" rx=".89" ry=".89"/>
+      </g>
+      <g id="bt17">
+        <rect class="cls-6" x="1131.13" y="406.08" width="4.37" height="4.37" rx=".89" ry=".89"/>
+      </g>
+    </g>
     <g id="Attack_Paths">
       <path id="westPoint4" class="cls-4" d="m1169.67,832.01s-166.05-137.79-97.6-183.13,97.6,183.13,97.6,183.13"/>
       <path id="westPoint3" class="cls-4" d="m1169.67,832.01s-156.6,34.54-151.42-26.31,151.42,26.31,151.42,26.31"/>
@@ -24921,9 +24974,9 @@
     </g>
     <g>
       <g class="cls-14">
-        <text class="cls-11" transform="translate(1259.07 363.65)"><tspan class="cls-13" x="0" y="0">Be</tspan><tspan class="cls-1" x="27.35" y="0">r</tspan><tspan class="cls-13" x="36.56" y="0">ylia</tspan></text>
+        <text class="cls-11" transform="translate(1256.72 373.19)"><tspan class="cls-13" x="0" y="0">Be</tspan><tspan class="cls-1" x="27.35" y="0">r</tspan><tspan class="cls-13" x="36.56" y="0">ylia</tspan></text>
       </g>
-      <text class="cls-9" transform="translate(1259.07 363.65)"><tspan class="cls-13" x="0" y="0">Be</tspan><tspan class="cls-1" x="27.35" y="0">r</tspan><tspan class="cls-13" x="36.56" y="0">ylia</tspan></text>
+      <text class="cls-9" transform="translate(1256.72 373.19)"><tspan class="cls-13" x="0" y="0">Be</tspan><tspan class="cls-1" x="27.35" y="0">r</tspan><tspan class="cls-13" x="36.56" y="0">ylia</tspan></text>
     </g>
     <g>
       <g class="cls-14">

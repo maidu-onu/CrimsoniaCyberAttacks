@@ -19,6 +19,7 @@ import {
   descLvl1,
   descLvl2,
   descLvl3,
+  testData,
 } from "./data.js";
 
 import {
@@ -26,6 +27,9 @@ import {
   setRandomInterval,
   signalDuration,
 } from "./settings.js";
+
+import API from "./api.js";
+
 ///CONFIG///
 
 let isTabActive = true;
@@ -37,6 +41,7 @@ let pathIdCount = 1; // naming new paths as path_001 etc.
 let latestPath;
 let mapSvg;
 let animationSvg;
+let gapInRealAttacks = 0;
 
 const map = function () {
   // only after map exists
@@ -227,10 +232,10 @@ const randomSignal = function (
   color = randomInt(3),
   bend = 1,
   interval = setRandomInterval,
-  durationMod = 1
+  durationMod = 1 //how fast animation happens
 ) {
   let lastTime = Date.now();
-  let randomInterval = randomTime(interval) * 0.5; //this needs to be outside of interval, first interval is smaller
+  let randomInterval = randomTime(interval);
   //console.log(randomInterval);
   let timeCounter = 0;
   let timeBetween = 0;
@@ -243,13 +248,32 @@ const randomSignal = function (
     console.log(`timeleft ${Date.now() - lastTime}`); */
     if (!isTabActive) {
       clearInterval(interval1);
-      console.log("stop"); // clears interval after tab hidden
+      //console.log("stop"); // clears interval after tab hidden
       stoppedSignals.push([id1, id2, color, bend, interval, durationMod]); // adds signals to stoppedSignals array for later restart
       //removePath(pathName);
       //removePath(`#${pathName.replace("path", "circle")}`);
-      console.log(stoppedSignals);
+      //console.log(stoppedSignals);
       return;
     }
+    /*     if (gapInRealAttacks === 1 && stoppedSignals.length > 0) {
+      isTabActive = !document.hidden;
+      if (isTabActive) {
+        pathIdCount = 1;
+        //timeBetween = 0; //remove delay that is between repeating signals
+        stoppedSignals.forEach((param) => {
+          randomSignal(
+            param[0],
+            param[1],
+            param[2],
+            param[3],
+            param[4],
+            param[5],
+            param[6]
+          );
+        });
+        stoppedSignals = [];
+      }
+    } */
     if (Date.now() > lastTime + randomInterval + timeBetween) {
       // timebetween is 0 at the very start
       lastTime = Date.now();
@@ -269,18 +293,18 @@ const randomSignal = function (
       if (countries.includes(id2)) {
         city2 = randomCity(id2);
       }
-      if (city2 !== 0) {
+      if (city2 !== 0 && gapInRealAttacks === 1) {
+        // some predrawn attacks have id2=0
         attack(city1, city2, color, bend); //business as usual;
         if (countries.includes(id2) && randomInt(8) === 8) {
           //sometimes attacks spread inside target country
-          // sometimes attack spread out
           setTimeout(() => {
             for (let i = 0; i < randomInt(2) + 1; i++) {
               attack(city2, randomCity(id2), color, bend, 0);
             }
           }, signalDuration * durationMod - 1500);
         }
-      } else {
+      } else if (gapInRealAttacks === 1) {
         // predrawn paths
         const element = document.getElementById(id1);
         const circle = document.getElementById(`${id1}_circle`);
@@ -289,7 +313,6 @@ const randomSignal = function (
           circle.classList.remove(...circle.classList);
           circle.classList.add(`circle${color}`);
           circle.removeAttribute("r");
-          console.log(circle);
         }
         element.classList.add(`up${color}`); // if layer ID ends with _w there will be no circle at the end of the path, but water splash
         if (id1.slice(-2) == "_w") {
@@ -344,13 +367,20 @@ const showLabel = function (
   customID
 ) {
   const who = citiesCrimsonia.includes(id) ? "attacker" : "attacked";
-
+  let labelText;
+  if (customID) {
+    labelText = customID;
+  } else if (id.toLowerCase().startsWith("bt")) {
+    labelText = id.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
+  } else {
+    labelText = id;
+  }
   setTimeout(() => {
     document.querySelector("#animationSVG").insertAdjacentHTML(
       "afterbegin",
       ` <text class=${who} x="${getCoordsById(id)[0] + xoffset}" y="${
         getCoordsById(id)[1] - yoffset
-      }">${customID ? customID : id}</text>
+      }">${labelText}</text>
 `
     );
     const textElement = document.querySelector(`.${who}`);
@@ -386,6 +416,13 @@ const attack = function (id1, id2, color, bend = 1, log = 1) {
       attackDesc[color - 1][randomInt(attackDesc[0].length) - 1],
       id1,
       id2
+    );
+  } else if (log != 0) {
+    attackLog(
+      color,
+      log,
+      id1,
+      id2.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2")
     );
   }
   //console.log("signalled " + latestPath);
@@ -439,16 +476,16 @@ const landHover = function () {
 
 const randomCity = function (attCountry = "random") {
   let city;
-  attCountry === "Berylia"
+  attCountry === "berylia"
     ? (city = citiesBerylia[randomInt(citiesBerylia.length) - 1])
     : "";
-  attCountry === "Crimsonia"
+  attCountry === "crimsonia"
     ? (city = citiesCrimsonia[randomInt(citiesCrimsonia.length) - 1])
     : "";
-  attCountry === "Revalia"
+  attCountry === "revalia"
     ? (city = citiesRevalia[randomInt(citiesRevalia.length) - 1])
     : "";
-  attCountry === "Netoria"
+  attCountry === "netoria"
     ? (city = citiesNetoria[randomInt(citiesNetoria.length) - 1])
     : "";
   attCountry === "random" ? (city = cities[randomInt(cities.length) - 1]) : "";
@@ -457,9 +494,11 @@ const randomCity = function (attCountry = "random") {
 
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
   let klingon;
-  randomInt(8) === 8
-    ? (klingon = "log-title-klingon")
-    : (klingon = "log-title");
+  if (!defender.toLowerCase().startsWith("bt")) {
+    randomInt(12) === 12 ? (klingon = "log-title-klingon") : "";
+  } else {
+    klingon = "log-title";
+  }
 
   const html = `<div class="log-event">
   <div class="threat-circle-${threatLevel}"></div>
@@ -486,6 +525,77 @@ const attackLog = function (threatLevel = 2, description, attacker, defender) {
   elements.length >= 10 ? log.removeChild(log.lastElementChild) : "";
   log.insertAdjacentHTML("afterbegin", html);
 };
+////////// API /////////////
+async function attacksAPI() {
+  let api = new API();
+  let team = "all";
+  let datas = (await api.getData(team)) || {};
+  let events = datas.arrows;
+  let eventNo = 0;
+  gapInRealAttacks = 0;
+
+  let testing = 1;
+  let refreshInterval = 30000;
+  let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attack
+
+  if (testing === 1) {
+    // testData is in data.js
+    events = testData;
+  }
+  /* events.forEach((data) => {
+    data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
+  }); */
+  events.sort((a, b) => a.TS - b.TS);
+
+  const makePresent = function () {
+    let timeDiff = Date.now() - events[0].TS;
+    events.forEach((data) => {
+      data.TS += timeDiff + 2000;
+    });
+  };
+  makePresent();
+
+  setInterval(() => {
+    if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
+      attack(
+        randomCity(events[eventNo].begin),
+        events[eventNo].end,
+        1,
+        0.7,
+        `Attack on ${events[eventNo].target}`
+      );
+      eventNo++;
+    }
+    if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
+      gapInRealAttacks = 1;
+    }
+    if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
+      gapInRealAttacks = 0;
+    }
+  }, 400);
+
+  /*  if (events) {
+    // just for seeing log if imported data or testdata
+    events.forEach((data) => {
+      console.log(data);
+    });
+  } else {
+    console.log("No arrows found or data fetch failed.");
+  } */
+
+  const refreshData = function (interval = 30000) {
+    //gets the data from the server again
+    setInterval(async () => {
+      eventNo = 0;
+      datas = (await api.getData(team)) || {};
+      events = datas.arrows;
+      await makePresent();
+      events.sort((a, b) => a.TS - b.TS);
+    }, interval);
+  };
+
+  refreshData(refreshInterval);
+}
 
 async function initialize() {
   try {
@@ -496,24 +606,24 @@ async function initialize() {
     landHover(); // cursor hover effect over land
 
     mapClick(); //eventListener for clicking on map
+    attacksAPI();
 
-    randomSignal("Crimsonia", "Berylia", 1, 1.7);
-    randomSignal("Crimsonia", "Berylia", 1, 0.7);
-    randomSignal("Crimsonia", "Berylia", 1, 0.7);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
-    randomSignal("Crimsonia", "Berylia", 2, 0.7, 50000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
-    randomSignal("Crimsonia", "Berylia", 3, 0.7, 80000);
-    randomSignal("Crimsonia", "Netoria", randomInt(3), 0.7);
+    //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
 
-    randomSignal("westPoint1_w", 0, randomInt(3), 1, 300000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
-    randomSignal("westPoint2_w", 0, randomInt(3), 1, 300000, 3);
-    randomSignal("westPoint3", 0, randomInt(3), 1, 300000, 2);
-    randomSignal("westPoint4", 0, randomInt(3), 1, 300000, 2);
+    randomSignal("crimsonia", "berylia", 2, 0.7);
+    randomSignal("crimsonia", "berylia", 2, 0.7);
+    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+    randomSignal("crimsonia", "berylia", 2, 0.7, 80000);
+    randomSignal("crimsonia", "berylia", 2, 0.7, 80000);
+    randomSignal("crimsonia", "netoria", 2, 0.7);
+
+    randomSignal("westPoint1_w", 0, 2, 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
+    randomSignal("westPoint2_w", 0, 2, 1, 600000, 3);
+    randomSignal("westPoint3", 0, 2, 1, 600000, 2);
+    randomSignal("westPoint4", 0, 2, 1, 600000, 2);
     //activeSignals.forEach(randomSignal);
-    ////////////////////////////////////////////////
+    //////////////////////////////////////////////// */
   } catch (error) {
     console.error("Initialization failed:", error);
   }

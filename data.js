@@ -1,9 +1,10 @@
 "use strict";
+
 export const countries = [
-  "Berylia",
-  "Crimsonia",
-  "Revalia",
-  "Netoria",
+  "berylia",
+  "crimsonia",
+  "revalia",
+  "netoria",
   "random",
 ];
 export const citiesBerylia = [
@@ -142,3 +143,39 @@ export const descLvl3 = [
   "Hidden RAT (Remote Access Trojan) granting full system control",
 ];
 export const attackDesc = [descLvl1, descLvl2, descLvl3];
+
+export const testData = [
+  { TS: 1746092767731, begin: "crimsonia", end: "bt02", target: "satellite" },
+  { TS: 1746092769731, begin: "crimsonia", end: "bt04", target: "satellite" },
+  { TS: 1746092772731, begin: "crimsonia", end: "bt12", target: "satellite" },
+  { TS: 1746092782731, begin: "crimsonia", end: "bt01", target: "satellite" },
+  { TS: 1746092785731, begin: "crimsonia", end: "bt06", target: "power plant" },
+  { TS: 1746092788731, begin: "crimsonia", end: "bt10", target: "satellite" },
+  { TS: 1746092791731, begin: "crimsonia", end: "bt15", target: "satellite" },
+  { TS: 1746092794731, begin: "crimsonia", end: "bt02", target: "satellite" },
+  { TS: 1746092797731, begin: "crimsonia", end: "bt17", target: "power plant" },
+  { TS: 1746092800731, begin: "crimsonia", end: "bt16", target: "satellite" },
+  { TS: 1746092803731, begin: "crimsonia", end: "bt12", target: "power plant" },
+  { TS: 1746092806731, begin: "crimsonia", end: "bt11", target: "satellite" },
+  { TS: 1746092809731, begin: "crimsonia", end: "bt05", target: "satellite" },
+  { TS: 1746092812731, begin: "crimsonia", end: "bt12", target: "power plant" },
+  { TS: 1746092827731, begin: "crimsonia", end: "bt01", target: "satellite" },
+  { TS: 1746092830731, begin: "crimsonia", end: "bt06", target: "satellite" },
+  { TS: 1746092833731, begin: "crimsonia", end: "bt10", target: "power plant" },
+  { TS: 1746092836731, begin: "crimsonia", end: "bt15", target: "satellite" },
+  { TS: 1746092839731, begin: "crimsonia", end: "bt02", target: "satellite" },
+  { TS: 1746092842731, begin: "crimsonia", end: "bt17", target: "satellite" },
+  { TS: 1746092845731, begin: "crimsonia", end: "bt16", target: "power plant" },
+  { TS: 1746092848731, begin: "crimsonia", end: "bt12", target: "satellite" },
+  { TS: 1746092851731, begin: "crimsonia", end: "bt02", target: "satellite" },
+  { TS: 1746092854731, begin: "crimsonia", end: "bt17", target: "power plant" },
+  { TS: 1746092857731, begin: "crimsonia", end: "bt16", target: "satellite" },
+  { TS: 1746092860731, begin: "crimsonia", end: "bt12", target: "power plant" },
+  { TS: 1746092863731, begin: "crimsonia", end: "bt11", target: "satellite" },
+  { TS: 1746092875731, begin: "crimsonia", end: "bt05", target: "power plant" },
+  { TS: 1746092878731, begin: "crimsonia", end: "bt12", target: "satellite" },
+  { TS: 1746092880731, begin: "crimsonia", end: "bt01", target: "power plant" },
+  { TS: 1746092882731, begin: "crimsonia", end: "bt06", target: "satellite" },
+  { TS: 1746092884731, begin: "crimsonia", end: "bt10", target: "satellite" },
+  { TS: 1746092886731, begin: "crimsonia", end: "bt15", target: "satellite" },
+];
