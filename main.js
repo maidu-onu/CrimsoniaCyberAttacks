@@ -493,7 +493,7 @@ const randomCity = function (attCountry = "random") {
 };
 
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
-  let klingon;
+  let klingon = "log-title";
   if (!defender.toLowerCase().startsWith("bt")) {
     randomInt(12) === 12 ? (klingon = "log-title-klingon") : "";
   } else {
@@ -525,7 +525,9 @@ const attackLog = function (threatLevel = 2, description, attacker, defender) {
   elements.length >= 10 ? log.removeChild(log.lastElementChild) : "";
   log.insertAdjacentHTML("afterbegin", html);
 };
+////////////////////////////
 ////////// API /////////////
+////////////////////////////
 async function attacksAPI() {
   let api = new API();
   let team = "all";
@@ -533,10 +535,10 @@ async function attacksAPI() {
   let events = datas.arrows;
   let eventNo = 0;
   gapInRealAttacks = 0;
-
-  let testing = 1;
-  let refreshInterval = 30000;
-  let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attack
+  /////SETTINGS///
+  let testing = 1; // turn test data from data.js on/off
+  let refreshInterval = 30000; // how often it looks for new data from server
+  let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attacks
 
   if (testing === 1) {
     // testData is in data.js
