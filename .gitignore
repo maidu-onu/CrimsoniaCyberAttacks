@@ -1,6 +1,4 @@
-# Ignore build output
-dist/
-dist-temp/
+
 
 # Ignore Node dependencies
 node_modules/
