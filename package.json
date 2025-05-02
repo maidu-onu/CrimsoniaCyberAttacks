@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "obfuscate": "node obfuscate.js"
   },
   "devDependencies": {
     "parcel": "^2.0.0",
