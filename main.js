@@ -1,6 +1,6 @@
 "use strict";
 import {
-  /*   loadSVG, */
+  loadSVG,
   randomInt,
   bendRandom,
   getRandomRGB,
@@ -30,26 +30,6 @@ import {
 
 import API from "./api.js";
 
-const loadSVG = async function (fileUrl, destination = "body") {
-  try {
-    const response = await fetch(fileUrl);
-    const svgContent = await response.text();
-
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = svgContent;
-
-    const svgElement = tempDiv.querySelector("svg");
-
-    if (fileUrl.includes("map") && svgElement) {
-      svgElement.setAttribute("preserveAspectRatio", "xMidYMin meet");
-      svgElement.setAttribute("id", "map");
-    }
-
-    document.getElementById(destination).appendChild(svgElement);
-  } catch (err) {
-    console.error("loadSVG error:", err);
-  }
-};
 ///CONFIG///
 
 let isTabActive = true;
@@ -625,7 +605,7 @@ async function attacksAPI() {
 async function initialize() {
   try {
     /////////////ALL GRAPHICAL STUFF//////////////
-    await loadSVG(mapURL, "mapContainer");
+    await loadSVG("map", "mapContainer");
     await map(); //defines map svg object as const
     await animation(); //defines animationSVG as const
     landHover(); // cursor hover effect over land
