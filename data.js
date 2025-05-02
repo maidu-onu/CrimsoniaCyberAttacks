@@ -49,7 +49,6 @@ export const citiesCrimsonia = [
   "Olkburg",
   "Goit",
   "Drespus",
-  "West_Point",
 ];
 
 export const citiesRevalia = [

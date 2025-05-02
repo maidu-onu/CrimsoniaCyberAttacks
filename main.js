@@ -30,6 +30,8 @@ import {
 
 import API from "./api.js";
 
+const iconUrl = new URL("./SVG/map.svg", import.meta.url);
+
 ///CONFIG///
 
 let isTabActive = true;
@@ -366,7 +368,10 @@ const showLabel = function (
   yoffset = -10,
   customID
 ) {
-  const who = citiesCrimsonia.includes(id) ? "attacker" : "attacked";
+  const who =
+    citiesCrimsonia.includes(id) || id === "West_Point"
+      ? "attacker"
+      : "attacked";
   let labelText;
   if (customID) {
     labelText = customID;
