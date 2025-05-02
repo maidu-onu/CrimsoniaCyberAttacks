@@ -30,7 +30,7 @@ import {
 
 import API from "./api.js";
 
-const iconUrl = new URL("./SVG/map.svg", import.meta.url);
+const iconUrl = new URL("./SVG/map.svg", import.meta.url); //for Netlify to see map.svg for parcel
 
 ///CONFIG///
 
