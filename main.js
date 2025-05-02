@@ -1,6 +1,6 @@
 "use strict";
 import {
-  loadSVG,
+  /*   loadSVG, */
   randomInt,
   bendRandom,
   getRandomRGB,
@@ -31,6 +31,36 @@ import {
 import API from "./api.js";
 
 const iconUrl = new URL("./SVG/map.svg", import.meta.url); //for Netlify to see map.svg for parcel
+
+const loadSVG = async function (fileName, destination = "body") {
+  try {
+    // Fetch the SVG file
+    const response = await fetch(`SVG/${fileName}.svg`);
+
+    // Convert the response to text (SVG content)
+    const svgContent = await response.text();
+
+    // Create a temporary container for the SVG content
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = svgContent;
+
+    // Get the first SVG element from the loaded content
+    const svgElement = tempDiv.querySelector("svg");
+
+    if (fileName === "map" && svgElement) {
+      // Set preserveAspectRatio attribute if fileName is 'main'
+      svgElement.setAttribute("preserveAspectRatio", "xMidYMin meet");
+      svgElement.setAttribute("id", "map");
+    }
+
+    // Insert the modified SVG content into the specified destination
+    document
+      .getElementById(destination)
+      .insertAdjacentHTML("beforeend", tempDiv.innerHTML);
+  } catch (error) {
+    console.error("Error loading SVG:", error);
+  }
+};
 
 ///CONFIG///
 
