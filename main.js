@@ -30,12 +30,12 @@ import {
 
 import API from "./api.js";
 
-const iconUrl = new URL("./SVG/map.svg", import.meta.url); //for Netlify to see map.svg for parcel
+const mapURL = new URL("./SVG/map.svg", import.meta.url); //for Netlify to see map.svg for parcel
 
-const loadSVG = async function (fileName, destination = "body") {
+const loadSVG = async function (filePath, destination = "body") {
   try {
     // Fetch the SVG file
-    const response = await fetch(`SVG/${fileName}.svg`);
+    const response = await fetch(filePath);
 
     // Convert the response to text (SVG content)
     const svgContent = await response.text();
@@ -637,7 +637,7 @@ async function attacksAPI() {
 async function initialize() {
   try {
     /////////////ALL GRAPHICAL STUFF//////////////
-    await loadSVG("map", "mapContainer");
+    await loadSVG(mapURL, "mapContainer");
     await map(); //defines map svg object as const
     await animation(); //defines animationSVG as const
     landHover(); // cursor hover effect over land
