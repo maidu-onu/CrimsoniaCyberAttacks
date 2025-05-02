@@ -1,4 +1,4 @@
-# Ignore the dist folder created by Parcel builds
+# Ignore the dist folder created by Parcel build
 dist/
 
 # Node dependencies
