@@ -37,7 +37,7 @@ let isTabActive = true;
   "path_001" 
 ];   */
 let stoppedSignals = [];
-let pathIdCount = 1; // naming new paths as path_001 etc.
+let pathIdCount = 1; // naming new paths as path_001 etc
 let latestPath;
 let mapSvg;
 let animationSvg;
