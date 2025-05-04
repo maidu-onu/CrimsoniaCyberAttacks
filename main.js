@@ -20,12 +20,17 @@ import {
   descLvl2,
   descLvl3,
   testData,
+  btAttackDesc,
+  btExploits,
+  btPhising,
+  btMalware,
 } from "./data.js";
 
 import {
   setTimeBetween,
   setRandomInterval,
   signalDuration,
+  loopInterval,
 } from "./settings.js";
 
 import API from "./api.js";
@@ -42,6 +47,11 @@ let latestPath;
 let mapSvg;
 let animationSvg;
 let gapInRealAttacks = 0;
+
+const realDist = function () {
+  const attackDist = [1, 1, 1, 1, 2, 2, 3];
+  return attackDist[randomInt(attackDist.length - 1)];
+};
 
 const map = function () {
   // only after map exists
@@ -296,8 +306,8 @@ const randomSignal = function (
       if (city2 !== 0 && gapInRealAttacks === 1) {
         // some predrawn attacks have id2=0
         attack(city1, city2, color, bend); //business as usual;
-        if (countries.includes(id2) && randomInt(8) === 8) {
-          //sometimes attacks spread inside target country
+        if (countries.includes(id2) && randomInt(10) === 10) {
+          //sometimes attacks spread/split inside target country
           setTimeout(() => {
             for (let i = 0; i < randomInt(2) + 1; i++) {
               attack(city2, randomCity(id2), color, bend, 0);
@@ -400,7 +410,16 @@ const showLabel = function (
   }, appear);
 };
 
+let level1 = 0;
+let level2 = 0;
+let level3 = 0;
+
 const attack = function (id1, id2, color, bend = 1, log = 1) {
+  color === 1 ? level1++ : "";
+  color === 2 ? level2++ : "";
+  color === 3 ? level3++ : "";
+  //console.log(level1+", "+level2+", "+level3);
+
   makePathByID(id1, id2, color, bendRandom(bend));
   //console.log("Created " + latestPath);
   const element = document.querySelector(`#${id1}`);
@@ -423,7 +442,7 @@ const attack = function (id1, id2, color, bend = 1, log = 1) {
   } else if (log != 0) {
     attackLog(
       color,
-      log,
+      btAttackDesc[color - 1][randomInt(attackDesc[0].length) - 1] + " " + log,
       id1,
       id2.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2")
     );
@@ -498,7 +517,7 @@ const randomCity = function (attCountry = "random") {
 const attackLog = function (threatLevel = 2, description, attacker, defender) {
   let klingon = "log-title";
   if (!defender.toLowerCase().startsWith("bt")) {
-    randomInt(12) === 12 ? (klingon = "log-title-klingon") : "";
+    randomInt(14) === 14 ? (klingon = "log-title-klingon") : "";
   } else {
     klingon = "log-title";
   }
@@ -539,14 +558,21 @@ async function attacksAPI() {
   let eventNo = 0;
   gapInRealAttacks = 0;
   /////SETTINGS///
-  let testing = 1; // turn test data from data.js on/off
+  let test; // turn test data from data.js on/off
   let refreshInterval = 30000; // how often it looks for new data from server
   let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attacks
 
-  if (testing === 1) {
+  const urlParams = new URLSearchParams(window.location.search);
+  console.log(urlParams);
+  urlParams.get("test") === "1" ? (test = 1) : (test = 0);
+  if (test === 1) {
     // testData is in data.js
     events = testData;
   }
+  urlParams.get("loop") ? (loopInterval = urlParams.get("loop")) : "";
+  console.log(loopInterval);
+
+  //console.log("test is " +test);
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
@@ -561,22 +587,30 @@ async function attacksAPI() {
   makePresent();
 
   setInterval(() => {
-    if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
-      attack(
-        randomCity(events[eventNo].begin),
-        events[eventNo].end,
-        1,
-        0.7,
-        `Attack on ${events[eventNo].target}`
-      );
-      eventNo++;
-    }
-    if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
-      gapInRealAttacks = 1;
-    }
-    if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
-      gapInRealAttacks = 0;
-    }
+    const apiAttack = function () {
+      if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
+        attack(
+          randomCity(events[eventNo].begin),
+          events[eventNo].end,
+          realDist(),
+          0.7,
+          events[eventNo].target
+        );
+        eventNo++;
+      }
+      if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
+        gapInRealAttacks = 1;
+      }
+      if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
+        gapInRealAttacks = 0;
+      }
+    };
+    apiAttack();
+    apiAttack();
+    apiAttack();
+    apiAttack();
+    apiAttack();
+    apiAttack();
   }, 400);
 
   /*  if (events) {
@@ -615,18 +649,21 @@ async function initialize() {
 
     //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
 
-    randomSignal("crimsonia", "berylia", 2, 0.7);
-    randomSignal("crimsonia", "berylia", 2, 0.7);
+    randomSignal("crimsonia", "berylia", 1, 0.7);
+    randomSignal("crimsonia", "berylia", 1, 0.7);
+    randomSignal("crimsonia", "berylia", 1, 0.7);
+    randomSignal("crimsonia", "berylia", 1, 0.7);
     randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
     randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-    randomSignal("crimsonia", "berylia", 2, 0.7, 80000);
-    randomSignal("crimsonia", "berylia", 2, 0.7, 80000);
-    randomSignal("crimsonia", "netoria", 2, 0.7);
-
-    randomSignal("westPoint1_w", 0, 2, 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
-    randomSignal("westPoint2_w", 0, 2, 1, 600000, 3);
-    randomSignal("westPoint3", 0, 2, 1, 600000, 2);
-    randomSignal("westPoint4", 0, 2, 1, 600000, 2);
+    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+    randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
+    randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
+    randomSignal("crimsonia", "netoria", randomInt(3), 0.7);
+    //Predrawn paths
+    randomSignal("westPoint1_w", 0, randomInt(3), 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
+    randomSignal("westPoint2_w", 0, randomInt(3), 1, 600000, 3);
+    randomSignal("westPoint3", 0, randomInt(3), 1, 600000, 2);
+    randomSignal("westPoint4", 0, randomInt(3), 1, 600000, 2);
     //activeSignals.forEach(randomSignal);
     //////////////////////////////////////////////// */
   } catch (error) {

@@ -143,6 +143,80 @@ export const descLvl3 = [
 ];
 export const attackDesc = [descLvl1, descLvl2, descLvl3];
 
+export const btExploits = [
+  // Exploits
+  "Modbus write overflow on",
+  "VPN auth bypass on",
+  "Remote shell via SNMP on",
+  "Memory leak in SCADA on",
+  "Auth bypass using JWT flaw on",
+  "Telnet backdoor exploit on",
+  "Buffer overrun in parser on",
+  "Logic flaw in RPC handler on",
+  "Race condition in RTU auth on",
+  "Stack smash in driver code on",
+  "XML bomb crash on",
+  "Weak SSH keys found on",
+  "Firmware downgrade trick on",
+  "Session hijack via token leak on",
+  "Path traversal in log viewer on",
+  "UDP flood triggers DoS on",
+  "Unsafe deserialization on",
+  "Old TLS cipher suite on",
+  "Hardcoded creds in firmware on",
+  "ICMP tunneling detected on",
+];
+
+export const btPhising = [
+  // Phishing
+  "Fake sysadmin email to",
+  "Spoofed update notice for",
+  "Login lure from fake vendor to",
+  "Malicious PDF sent to",
+  "Voice call pretending IT at",
+  "Fake patch link sent to",
+  "Impersonated audit request at",
+  "Bogus incident alert for",
+  "LinkedIn lure targeting",
+  "Email spoofed from ops to",
+  "QR login scam targeting",
+  "Compromised vendor request to",
+  "Clone site asking login from",
+  "Smishing via SMS to staff at",
+  "Fake CEO request to finance at",
+  "Invoice phishing to accounts at",
+  "Survey phishing link sent to",
+  "Urgent wire fraud targeting",
+  "Spoofed IT reset email at",
+  "Fake compliance doc sent to",
+];
+
+export const btMalware = [
+  // Malware
+  "RAT beaconing from",
+  "Wiper malware on",
+  "Keylogger deployed on",
+  "Crypto miner active on",
+  "Rootkit hides in",
+  "USB worm on",
+  "Spyware logs screens on",
+  "DNS tunneling via",
+  "Dropper loads Trojan on",
+  "Polymorphic code on",
+  "Fileless loader on",
+  "Backdoor in bootloader on",
+  "Botnet activity from",
+  "Fake AV running on",
+  "Persistence implant in",
+  "Stealer grabs creds on",
+  "Malvertising hit on",
+  "Trojan camouflaged in update on",
+  "SMB worm outbreak on",
+  "Ransom note found on",
+];
+
+export const btAttackDesc = [btExploits, btPhising, btMalware];
+
 export const testData = [
   { TS: 1746092767731, begin: "crimsonia", end: "bt02", target: "satellite" },
   { TS: 1746092769731, begin: "crimsonia", end: "bt04", target: "satellite" },
@@ -177,4 +251,5 @@ export const testData = [
   { TS: 1746092882731, begin: "crimsonia", end: "bt06", target: "satellite" },
   { TS: 1746092884731, begin: "crimsonia", end: "bt10", target: "satellite" },
   { TS: 1746092886731, begin: "crimsonia", end: "bt15", target: "satellite" },
+  //{ TS: 99999999999999999999, begin: "crimsonia", end: "bt15", target: "satellite" }
 ];
