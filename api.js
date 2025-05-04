@@ -1,9 +1,6 @@
 class API {
   constructor() {
-    this.db_url = window.location.hostname.includes("netlify.app")
-      ? "/api"
-      : "http://20.39.193.222:5000";
-    console.log(this.db_url);
+    this.db_url = "/api";
   }
 
   async getData(team) {
