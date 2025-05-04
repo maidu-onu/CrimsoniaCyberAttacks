@@ -422,11 +422,11 @@ body {
 .bt {
   font-family: Roboto;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   fill: #8deeff;
   text-shadow: 0 0 5px #212730, 0 0 5px #212730;
 }
-.bt_Defender {
+.bt_defender {
   font-weight: bold;
 }
 #LS2025_logo {

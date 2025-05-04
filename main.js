@@ -30,7 +30,6 @@ import {
   setTimeBetween,
   setRandomInterval,
   signalDuration,
-  loopInterval,
 } from "./settings.js";
 
 import API from "./api.js";
@@ -248,7 +247,7 @@ const randomSignal = function (
   let randomInterval = randomTime(interval);
   //console.log(randomInterval);
   let timeCounter = 0;
-  let timeBetween = 0;
+  let timeBetween = 1500;
   let pathName;
   let city1 = id1;
   let city2 = id2;
@@ -376,7 +375,7 @@ const showLabel = function (
   yoffset = -10,
   customID
 ) {
-  const who =
+  let who =
     citiesCrimsonia.includes(id) || id === "West_Point"
       ? "attacker"
       : "attacked";
@@ -384,6 +383,7 @@ const showLabel = function (
   if (customID) {
     labelText = customID;
   } else if (id.toLowerCase().startsWith("bt")) {
+    who = "bt";
     labelText = id.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   } else {
     labelText = id;
@@ -537,7 +537,9 @@ const attackLog = function (threatLevel = 2, description, attacker, defender) {
               <div class="log-arrow-${threatLevel}"></div>
               <div class="log-city">
              
-              <span>${defender}</span></div>
+              <span class="${
+                defender.toLowerCase().startsWith("bt") ? "bt_defender" : ""
+              }">${defender}</span></div>
             
           </div>       
       </div>
@@ -559,18 +561,18 @@ async function attacksAPI() {
   gapInRealAttacks = 0;
   /////SETTINGS///
   let test; // turn test data from data.js on/off
-  let refreshInterval = 30000; // how often it looks for new data from server
+  let refreshInterval = 1800000; // how often it looks for new data from server
   let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attacks
 
   const urlParams = new URLSearchParams(window.location.search);
-  console.log(urlParams);
   urlParams.get("test") === "1" ? (test = 1) : (test = 0);
   if (test === 1) {
     // testData is in data.js
     events = testData;
   }
-  urlParams.get("loop") ? (loopInterval = urlParams.get("loop")) : "";
-  console.log(loopInterval);
+  urlParams.get("refresh")
+    ? (refreshInterval = urlParams.get("refresh") * 1000)
+    : "";
 
   //console.log("test is " +test);
   /* events.forEach((data) => {
@@ -588,6 +590,7 @@ async function attacksAPI() {
 
   setInterval(() => {
     const apiAttack = function () {
+      // console.log(Math.abs(events[eventNo].TS - Date.now()));
       if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
         attack(
           randomCity(events[eventNo].begin),
@@ -606,11 +609,6 @@ async function attacksAPI() {
       }
     };
     apiAttack();
-    apiAttack();
-    apiAttack();
-    apiAttack();
-    apiAttack();
-    apiAttack();
   }, 400);
 
   /*  if (events) {
@@ -622,14 +620,20 @@ async function attacksAPI() {
     console.log("No arrows found or data fetch failed.");
   } */
 
-  const refreshData = function (interval = 30000) {
+  const refreshData = function (interval = 1800000) {
     //gets the data from the server again
+
     setInterval(async () => {
       eventNo = 0;
       datas = (await api.getData(team)) || {};
       events = datas.arrows;
-      await makePresent();
+
+      if (test === 1) {
+        // testData is in data.js
+        events = testData;
+      }
       events.sort((a, b) => a.TS - b.TS);
+      await makePresent();
     }, interval);
   };
 
