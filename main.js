@@ -603,7 +603,7 @@ async function attacksAPI() {
     });
   };
   if (Object.keys(datas).length !== 0 || test === 1) {
-    console.log("tere");
+    console.log(Object.keys(datas).length);
     makePresent();
   }
 
@@ -653,7 +653,7 @@ async function attacksAPI() {
         // testData is in data.js
         events = testData;
       }
-      if (Object.keys(datas).length !== 0) {
+      if (Object.keys(datas).length !== 0 || test === 1) {
         events.sort((a, b) => a.TS - b.TS);
         await makePresent();
       }
