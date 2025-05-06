@@ -603,7 +603,7 @@ async function attacksAPI() {
     });
   };
   if (Object.keys(datas).length !== 0 || test === 1) {
-    console.log(Object.keys(datas).length);
+    console.log(datas);
     makePresent();
   }
 
