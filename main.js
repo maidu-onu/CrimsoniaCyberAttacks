@@ -561,7 +561,6 @@ async function attacksAPI() {
   let api = new API();
   let team = "all";
   let test;
-  console.log(api.db_url);
   urlParams.get("test") === "1" ? (test = 1) : (test = 0);
   if (test === 0) {
     datas = (await api.getData(team)) || {};
@@ -593,7 +592,7 @@ async function attacksAPI() {
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
-  console.log("arrows" + datas.arrows.length === 0);
+  console.log(datas.arrows.length);
   if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
     events.sort((a, b) => a.TS - b.TS);
   }
@@ -605,7 +604,6 @@ async function attacksAPI() {
     });
   };
   if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
-    console.log(datas);
     makePresent();
   }
 
