@@ -582,7 +582,7 @@ async function attacksAPI() {
   /////SETTINGS///
   // turn test data from data.js on/off
   let refreshInterval = 1800000; // how often it looks for new data from server
-  let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attacks
+  let gapSizeToFill = 10000; // Simulated attacks start when gap of this size is detected  between real attacks
 
   if (test === 1) {
     // testData is in data.js
@@ -633,6 +633,9 @@ async function attacksAPI() {
           gapInRealAttacks = 0;
         }
       };
+      apiAttack();
+      apiAttack();
+      apiAttack();
       apiAttack();
     }, 400);
   }
