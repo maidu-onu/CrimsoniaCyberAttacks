@@ -592,8 +592,8 @@ async function attacksAPI() {
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
-  console.log(datas.arrows.length);
-  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+
+  if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     events.sort((a, b) => a.TS - b.TS);
   }
 
@@ -603,11 +603,11 @@ async function attacksAPI() {
       data.TS += timeDiff + 1000;
     });
   };
-  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+  if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     makePresent();
   }
 
-  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+  if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     setInterval(() => {
       const apiAttack = function () {
         // console.log(Math.abs(events[eventNo].TS - Date.now()));
@@ -653,7 +653,7 @@ async function attacksAPI() {
         // testData is in data.js
         events = testData;
       }
-      if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+      if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
         events.sort((a, b) => a.TS - b.TS);
         await makePresent();
       }
@@ -666,23 +666,19 @@ async function attacksAPI() {
 
   const recheckDataSource = function () {
     setInterval(async () => {
-      if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+      if (!datas.arrows || datas.arrows.length === 0) {
         eventNo = 0;
         datas = (await api.getData(team)) || {};
         events = datas.arrows;
 
-        if (test === 1) {
-          // testData is in data.js
-          events = testData;
-        }
-        if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
+        if (datas.arrows && datas.arrows.length !== 0) {
           events.sort((a, b) => a.TS - b.TS);
           await makePresent();
         }
       }
-    }, 10000);
+    }, 30000);
   };
-  if (test === 0) {
+  if (test !== 1) {
     recheckDataSource();
   }
 }
