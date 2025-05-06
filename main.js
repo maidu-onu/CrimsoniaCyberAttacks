@@ -552,13 +552,19 @@ const attackLog = function (threatLevel = 2, description, attacker, defender) {
 ////////////////////////////
 ////////// API /////////////
 ////////////////////////////
+let datas = {};
 async function attacksAPI() {
   let api = new API();
   let team = "all";
-  let datas = (await api.getData(team)) || {};
+  datas = (await api.getData(team)) || {};
+
+  if (Object.keys(datas).length == 0) {
+    gapInRealAttacks = 1;
+  } else {
+    gapInRealAttacks = 0;
+  }
   let events = datas.arrows;
   let eventNo = 0;
-  gapInRealAttacks = 0;
   /////SETTINGS///
   let test; // turn test data from data.js on/off
   let refreshInterval = 1800000; // how often it looks for new data from server
@@ -578,7 +584,9 @@ async function attacksAPI() {
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
-  events.sort((a, b) => a.TS - b.TS);
+  if (Object.keys(datas).length !== 0) {
+    events.sort((a, b) => a.TS - b.TS);
+  }
 
   const makePresent = function () {
     let timeDiff = Date.now() - events[0].TS;
@@ -586,30 +594,34 @@ async function attacksAPI() {
       data.TS += timeDiff + 2000;
     });
   };
-  makePresent();
+  if (Object.keys(datas).length !== 0) {
+    makePresent();
+  }
 
-  setInterval(() => {
-    const apiAttack = function () {
-      // console.log(Math.abs(events[eventNo].TS - Date.now()));
-      if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
-        attack(
-          randomCity(events[eventNo].begin),
-          events[eventNo].end,
-          realDist(),
-          0.7,
-          events[eventNo].target
-        );
-        eventNo++;
-      }
-      if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
-        gapInRealAttacks = 1;
-      }
-      if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
-        gapInRealAttacks = 0;
-      }
-    };
-    apiAttack();
-  }, 400);
+  if (Object.keys(datas).length !== 0) {
+    setInterval(() => {
+      const apiAttack = function () {
+        // console.log(Math.abs(events[eventNo].TS - Date.now()));
+        if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
+          attack(
+            randomCity(events[eventNo].begin),
+            events[eventNo].end,
+            realDist(),
+            0.7,
+            events[eventNo].target
+          );
+          eventNo++;
+        }
+        if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
+          gapInRealAttacks = 1;
+        }
+        if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
+          gapInRealAttacks = 0;
+        }
+      };
+      apiAttack();
+    }, 400);
+  }
 
   /*  if (events) {
     // just for seeing log if imported data or testdata
@@ -638,6 +650,23 @@ async function attacksAPI() {
   };
 
   refreshData(refreshInterval);
+  const recheckDataSource = function () {
+    setInterval(async () => {
+      if (Object.keys(datas).length == 0) {
+        eventNo = 0;
+        datas = (await api.getData(team)) || {};
+        events = datas.arrows;
+
+        if (test === 1) {
+          // testData is in data.js
+          events = testData;
+        }
+        events.sort((a, b) => a.TS - b.TS);
+        await makePresent();
+      }
+    }, 10000);
+  };
+  recheckDataSource();
 }
 
 async function initialize() {
@@ -650,7 +679,6 @@ async function initialize() {
 
     mapClick(); //eventListener for clicking on map
     attacksAPI();
-
     //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
 
     randomSignal("crimsonia", "berylia", 1, 0.7);
