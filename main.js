@@ -561,13 +561,13 @@ async function attacksAPI() {
   let api = new API();
   let team = "all";
   let test;
-
+  console.log(api.db_url);
   urlParams.get("test") === "1" ? (test = 1) : (test = 0);
   if (test === 0) {
     datas = (await api.getData(team)) || {};
   }
-  console.log(datas);
-  if (!datas.arrows) {
+
+  if (!datas.arrows || datas.arrows.length === 0) {
     gapInRealAttacks = 1;
   } else {
     gapInRealAttacks = 0;
@@ -593,8 +593,8 @@ async function attacksAPI() {
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
-  console.log("arrows" + datas.arrows);
-  if (!datas.arrows || test === 1) {
+  console.log("arrows" + datas.arrows.length === 0);
+  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
     events.sort((a, b) => a.TS - b.TS);
   }
 
@@ -604,12 +604,12 @@ async function attacksAPI() {
       data.TS += timeDiff + 1000;
     });
   };
-  if (datas.arrows !== 0 || test === 1) {
+  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
     console.log(datas);
     makePresent();
   }
 
-  if (datas.arrows !== 0 || test === 1) {
+  if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
     setInterval(() => {
       const apiAttack = function () {
         // console.log(Math.abs(events[eventNo].TS - Date.now()));
@@ -655,7 +655,7 @@ async function attacksAPI() {
         // testData is in data.js
         events = testData;
       }
-      if (datas.arrows !== 0 || test === 1) {
+      if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
         events.sort((a, b) => a.TS - b.TS);
         await makePresent();
       }
@@ -668,7 +668,7 @@ async function attacksAPI() {
 
   const recheckDataSource = function () {
     setInterval(async () => {
-      if (!datas.arrows) {
+      if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
         eventNo = 0;
         datas = (await api.getData(team)) || {};
         events = datas.arrows;
@@ -677,7 +677,7 @@ async function attacksAPI() {
           // testData is in data.js
           events = testData;
         }
-        if (!datas.arrows) {
+        if (!datas.arrows || datas.arrows.length === 0 || test === 1) {
           events.sort((a, b) => a.TS - b.TS);
           await makePresent();
         }
