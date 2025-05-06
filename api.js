@@ -7,24 +7,9 @@ class API {
 
   async getData(team) {
     try {
-      const timeout = new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error("Unable to fetch data / No data")),
-          8000
-        )
-      );
-
-      try {
-        const response = await Promise.race([
-          fetch(`${this.db_url}/data?team=${team}`),
-          timeout,
-        ]);
-        if (!response.ok) throw new Error(`Error: ${response.status}`);
-        return await response.json();
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
+      const response = await fetch(`${this.db_url}/data?team=${team}`);
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+      return await response.json();
     } catch (error) {
       console.error(error);
       return null;
