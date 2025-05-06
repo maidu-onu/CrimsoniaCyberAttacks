@@ -660,9 +660,7 @@ async function attacksAPI() {
     }, interval);
   };
 
-  if (test === 0) {
-    refreshData(refreshInterval);
-  }
+  refreshData(refreshInterval);
 
   const recheckDataSource = function () {
     setInterval(async () => {
