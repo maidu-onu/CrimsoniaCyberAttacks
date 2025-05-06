@@ -46,6 +46,7 @@ let latestPath;
 let mapSvg;
 let animationSvg;
 let gapInRealAttacks = 0;
+let stopMarker = 0;
 let fill = 1;
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -255,6 +256,10 @@ const randomSignal = function (
   let city1 = id1;
   let city2 = id2;
   let interval1 = setInterval(() => {
+    if (gapInRealAttacks === 0) {
+      clearInterval(interval1);
+      stopMarker = 0;
+    }
     /*  console.log(`timebetween on  ${timeBetween}`);
     console.log(randomInterval + timeBetween);
     console.log(`timeleft ${Date.now() - lastTime}`); */
@@ -367,7 +372,7 @@ const randomSignal = function (
         } // second parameter must be 2 if it is predrawn path;
       } // if second id is 0 it wont be animation between two ID-s, but one pre-drawn line.
     }
-  }, 100);
+  }, 300);
 };
 
 const showLabel = function (
@@ -693,23 +698,25 @@ async function initialize() {
     attacksAPI();
 
     //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
-    if (fill === 1) {
-      randomSignal("crimsonia", "berylia", 1, 0.7);
-      randomSignal("crimsonia", "berylia", 1, 0.7);
-      randomSignal("crimsonia", "berylia", 1, 0.7);
-      randomSignal("crimsonia", "berylia", 1, 0.7);
-      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-      randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
-      randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
-      randomSignal("crimsonia", "netoria", randomInt(3), 0.7);
-      //Predrawn paths
-      randomSignal("westPoint1_w", 0, randomInt(3), 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
-      randomSignal("westPoint2_w", 0, randomInt(3), 1, 600000, 3);
-      randomSignal("westPoint3", 0, randomInt(3), 1, 600000, 2);
-      randomSignal("westPoint4", 0, randomInt(3), 1, 600000, 2);
-    }
+    setInterval(() => {
+      if (gapInRealAttacks === 1 && stopMarker === 0) {
+        if (fill === 1) {
+          randomSignal("crimsonia", "berylia", 1, 0.7);
+          randomSignal("crimsonia", "berylia", 1, 0.7);
+          randomSignal("crimsonia", "berylia", 2, 0.7, 40000);
+          randomSignal("crimsonia", "berylia", 2, 0.7, 40000);
+          randomSignal("crimsonia", "berylia", 3, 0.7, 40000);
+          randomSignal("crimsonia", "netoria", randomInt(3), 0.7);
+          //Predrawn paths
+          randomSignal("westPoint1_w", 0, randomInt(3), 1, 800000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
+          randomSignal("westPoint2_w", 0, randomInt(3), 1, 800000, 3);
+          randomSignal("westPoint3", 0, randomInt(3), 1, 800000, 2);
+          randomSignal("westPoint4", 0, randomInt(3), 1, 800000, 2);
+          stopMarker = 1;
+        }
+      }
+    }, 300);
+
     //activeSignals.forEach(randomSignal);
     //////////////////////////////////////////////// */
   } catch (error) {
