@@ -224,7 +224,7 @@ export const testData = [
   { TS: 1746092782731, begin: "crimsonia", end: "bt01", target: "satellite" },
   { TS: 1746092785731, begin: "crimsonia", end: "bt06", target: "power plant" },
   { TS: 1746092788731, begin: "crimsonia", end: "bt10", target: "satellite" },
-  { TS: 1746092791731, begin: "crimsonia", end: "bt15", target: "satellite" },
+  /*   { TS: 1746092791731, begin: "crimsonia", end: "bt15", target: "satellite" },
   { TS: 1746092794731, begin: "crimsonia", end: "bt02", target: "satellite" },
   { TS: 1746092797731, begin: "crimsonia", end: "bt17", target: "power plant" },
   { TS: 1746092800731, begin: "crimsonia", end: "bt16", target: "satellite" },
@@ -250,6 +250,6 @@ export const testData = [
   { TS: 1746092880731, begin: "crimsonia", end: "bt01", target: "power plant" },
   { TS: 1746092882731, begin: "crimsonia", end: "bt06", target: "satellite" },
   { TS: 1746092884731, begin: "crimsonia", end: "bt10", target: "satellite" },
-  { TS: 1746092886731, begin: "crimsonia", end: "bt15", target: "satellite" },
+  { TS: 1746092886731, begin: "crimsonia", end: "bt15", target: "satellite" }, */
   //{ TS: 99999999999999999999, begin: "crimsonia", end: "bt15", target: "satellite" }
 ];

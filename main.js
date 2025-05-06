@@ -627,6 +627,10 @@ async function attacksAPI() {
             events[eventNo].target
           );
           eventNo++;
+          if (eventNo > events.length - 1) {
+            eventNo = 0;
+            makePresent();
+          }
         }
         if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
           gapInRealAttacks = 1;
