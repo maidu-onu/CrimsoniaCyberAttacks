@@ -1,5 +1,5 @@
 [[plugins]]
-  package = "netlify-plugin-js-obfuscator"
+ //package = "netlify-plugin-js-obfuscator"
 
   # All inputs are optional, so you can omit this section.
   # Defaults are shown below.
