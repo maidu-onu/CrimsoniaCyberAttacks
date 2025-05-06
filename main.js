@@ -46,7 +46,10 @@ let latestPath;
 let mapSvg;
 let animationSvg;
 let gapInRealAttacks = 0;
+let fill = 1;
 
+const urlParams = new URLSearchParams(window.location.search);
+urlParams.get("fill") === "0" ? (fill = 0) : (fill = 1);
 const realDist = function () {
   const attackDist = [1, 1, 1, 1, 2, 2, 3];
   return attackDist[randomInt(attackDist.length - 1)];
@@ -553,29 +556,34 @@ const attackLog = function (threatLevel = 2, description, attacker, defender) {
 ////////// API /////////////
 ////////////////////////////
 let datas = {};
+
 async function attacksAPI() {
   let api = new API();
   let team = "all";
-  datas = (await api.getData(team)) || {};
+  let test;
+  urlParams.get("test") === "1" ? (test = 1) : (test = 0);
+  if (test === 0) {
+    datas = (await api.getData(team)) || {};
+  }
 
   if (Object.keys(datas).length == 0) {
     gapInRealAttacks = 1;
   } else {
     gapInRealAttacks = 0;
   }
+
   let events = datas.arrows;
   let eventNo = 0;
   /////SETTINGS///
-  let test; // turn test data from data.js on/off
+  // turn test data from data.js on/off
   let refreshInterval = 1800000; // how often it looks for new data from server
   let gapSizeToFill = 8000; // Simulated attacks start when gap of this size is detected  between real attacks
 
-  const urlParams = new URLSearchParams(window.location.search);
-  urlParams.get("test") === "1" ? (test = 1) : (test = 0);
   if (test === 1) {
     // testData is in data.js
     events = testData;
   }
+
   urlParams.get("refresh")
     ? (refreshInterval = urlParams.get("refresh") * 1000)
     : "";
@@ -584,21 +592,21 @@ async function attacksAPI() {
   /* events.forEach((data) => {
     data.end = data.end.toUpperCase().replace(/([A-Z]+)(\d+)/, "$1 $2");
   }); */
-  if (Object.keys(datas).length !== 0) {
+  if (Object.keys(datas).length !== 0 || test === 1) {
     events.sort((a, b) => a.TS - b.TS);
   }
 
   const makePresent = function () {
     let timeDiff = Date.now() - events[0].TS;
     events.forEach((data) => {
-      data.TS += timeDiff + 2000;
+      data.TS += timeDiff + 1000;
     });
   };
-  if (Object.keys(datas).length !== 0) {
+  if (Object.keys(datas).length !== 0 || test === 1) {
     makePresent();
   }
 
-  if (Object.keys(datas).length !== 0) {
+  if (Object.keys(datas).length !== 0 || test === 1) {
     setInterval(() => {
       const apiAttack = function () {
         // console.log(Math.abs(events[eventNo].TS - Date.now()));
@@ -644,12 +652,17 @@ async function attacksAPI() {
         // testData is in data.js
         events = testData;
       }
-      events.sort((a, b) => a.TS - b.TS);
-      await makePresent();
+      if (Object.keys(datas).length !== 0) {
+        events.sort((a, b) => a.TS - b.TS);
+        await makePresent();
+      }
     }, interval);
   };
 
-  refreshData(refreshInterval);
+  if (test === 0) {
+    refreshData(refreshInterval);
+  }
+
   const recheckDataSource = function () {
     setInterval(async () => {
       if (Object.keys(datas).length == 0) {
@@ -661,12 +674,16 @@ async function attacksAPI() {
           // testData is in data.js
           events = testData;
         }
-        events.sort((a, b) => a.TS - b.TS);
-        await makePresent();
+        if (Object.keys(datas).length !== 0) {
+          events.sort((a, b) => a.TS - b.TS);
+          await makePresent();
+        }
       }
     }, 10000);
   };
-  recheckDataSource();
+  if (test === 0) {
+    recheckDataSource();
+  }
 }
 
 async function initialize() {
@@ -679,23 +696,25 @@ async function initialize() {
 
     mapClick(); //eventListener for clicking on map
     attacksAPI();
-    //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
 
-    randomSignal("crimsonia", "berylia", 1, 0.7);
-    randomSignal("crimsonia", "berylia", 1, 0.7);
-    randomSignal("crimsonia", "berylia", 1, 0.7);
-    randomSignal("crimsonia", "berylia", 1, 0.7);
-    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-    randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
-    randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
-    randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
-    randomSignal("crimsonia", "netoria", randomInt(3), 0.7);
-    //Predrawn paths
-    randomSignal("westPoint1_w", 0, randomInt(3), 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
-    randomSignal("westPoint2_w", 0, randomInt(3), 1, 600000, 3);
-    randomSignal("westPoint3", 0, randomInt(3), 1, 600000, 2);
-    randomSignal("westPoint4", 0, randomInt(3), 1, 600000, 2);
+    //RANDOM FILLING ATTACKS - active only in gaps of specific lengths//
+    if (fill === 1) {
+      randomSignal("crimsonia", "berylia", 1, 0.7);
+      randomSignal("crimsonia", "berylia", 1, 0.7);
+      randomSignal("crimsonia", "berylia", 1, 0.7);
+      randomSignal("crimsonia", "berylia", 1, 0.7);
+      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+      randomSignal("crimsonia", "berylia", 2, 0.7, 50000);
+      randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
+      randomSignal("crimsonia", "berylia", 3, 0.7, 80000);
+      randomSignal("crimsonia", "netoria", randomInt(3), 0.7);
+      //Predrawn paths
+      randomSignal("westPoint1_w", 0, randomInt(3), 1, 600000, 3); //path name, 0 - predrawn path, threat type, bend of the path(when not predrawn),pause between signals (randomly within this number), animation speed modifier
+      randomSignal("westPoint2_w", 0, randomInt(3), 1, 600000, 3);
+      randomSignal("westPoint3", 0, randomInt(3), 1, 600000, 2);
+      randomSignal("westPoint4", 0, randomInt(3), 1, 600000, 2);
+    }
     //activeSignals.forEach(randomSignal);
     //////////////////////////////////////////////// */
   } catch (error) {

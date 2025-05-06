@@ -10,7 +10,7 @@ class API {
       const timeout = new Promise((_, reject) =>
         setTimeout(
           () => reject(new Error("Unable to fetch data / No data")),
-          30000
+          8000
         )
       );
 
