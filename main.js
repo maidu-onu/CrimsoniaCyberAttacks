@@ -615,10 +615,9 @@ async function attacksAPI() {
 
   if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     setInterval(() => {
-      console.log(Math.abs(events[eventNo].TS - Date.now()));
+      console.log(events[eventNo].TS - Date.now());
       const apiAttack = function () {
-        console.log(Math.abs(events[eventNo].TS - Date.now()));
-        if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
+        if (events[eventNo].TS - Date.now() < 300) {
           attack(
             randomCity(events[eventNo].begin),
             events[eventNo].end,
@@ -632,18 +631,15 @@ async function attacksAPI() {
             makePresent();
           }
         }
-        if (Math.abs(events[eventNo].TS - Date.now()) > gapInRealAttacks) {
+        if (events[eventNo].TS - Date.now() > gapInRealAttacks) {
           gapInRealAttacks = 1;
         }
-        if (Math.abs(events[eventNo].TS - Date.now()) < 1000) {
+        if (events[eventNo].TS - Date.now() < 1000) {
           gapInRealAttacks = 0;
         }
       };
       apiAttack();
-      apiAttack();
-      apiAttack();
-      apiAttack();
-    }, 400);
+    }, 100);
   }
 
   /*  if (events) {
