@@ -616,7 +616,7 @@ async function attacksAPI() {
   if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     setInterval(() => {
       b++;
-      if (b > 4) {
+      if (b > 10) {
         b = 0;
         console.log(events[eventNo].TS - Date.now());
       }
