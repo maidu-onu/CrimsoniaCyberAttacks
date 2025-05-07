@@ -617,7 +617,7 @@ async function attacksAPI() {
     setInterval(() => {
       console.log(Math.abs(events[eventNo].TS - Date.now()));
       const apiAttack = function () {
-        // console.log(Math.abs(events[eventNo].TS - Date.now()));
+        console.log(Math.abs(events[eventNo].TS - Date.now()));
         if (Math.abs(events[eventNo].TS - Date.now()) < 300) {
           attack(
             randomCity(events[eventNo].begin),
