@@ -612,10 +612,14 @@ async function attacksAPI() {
   if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     makePresent();
   }
-
+  let b = 0;
   if ((datas.arrows && datas.arrows.length !== 0) || test === 1) {
     setInterval(() => {
-      console.log(events[eventNo].TS - Date.now());
+      b++;
+      if (b > 4) {
+        b = 0;
+        console.log(events[eventNo].TS - Date.now());
+      }
       const apiAttack = function () {
         if (events[eventNo].TS - Date.now() < 300) {
           attack(
